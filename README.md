@@ -6,8 +6,8 @@ Embed verified trust scores anywhere — websites, mobile apps, marketplaces.
 
 ```html
 <!-- Add a badge next to any username -->
-<span>Ryan N.</span>
-<div data-worldcredit="ryannapp" data-style="inline"></div>
+<span>Jane D.</span>
+<div data-worldcredit="janedoe" data-style="inline"></div>
 
 <!-- Load SDK -->
 <script src="https://world-credit.com/sdk/badge.js"></script>
@@ -41,27 +41,27 @@ WorldCredit.render(document.getElementById('badge'));
 WorldCredit.renderAll();
 
 // Fetch badge data programmatically
-const data = await WorldCredit.fetch('ryannapp');
+const data = await WorldCredit.fetch('janedoe');
 // → { ok, handle, displayName, worldScore, tier, tierColor, profileUrl, ... }
 ```
 
 ## Badge API
 
 ```
-GET https://badgeapi-czne44luta-uc.a.run.app?handle=ryannapp
+GET https://badgeapi-czne44luta-uc.a.run.app?handle=janedoe
 ```
 
 Response:
 ```json
 {
   "ok": true,
-  "handle": "ryannapp",
-  "displayName": "Ryan Napolitano",
+  "handle": "janedoe",
+  "displayName": "Jane Doe",
   "worldScore": 52,
   "tier": "Gold",
   "tierColor": "#FFD700",
   "linkedNetworks": 8,
-  "profileUrl": "https://profile-czne44luta-uc.a.run.app?handle=ryannapp",
+  "profileUrl": "https://profile-czne44luta-uc.a.run.app?handle=janedoe",
   "categories": [
     { "label": "Reliability", "score": 25 },
     { "label": "Financial Integrity", "score": 0 },
