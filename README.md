@@ -6,7 +6,7 @@ Embed verified trust scores anywhere — websites, mobile apps, marketplaces.
 
 | Platform | Status | Location |
 |----------|--------|----------|
-| JavaScript (Web) | ✅ Ready | [`js/`](./js/) |
+| JavaScript (Web) | ✅ Ready | [`web/`](./web/) |
 | iOS (Swift) | ✅ Ready | [`ios/`](./ios/) |
 | Android (Kotlin) | ✅ Ready | [`android/`](./android/) |
 | Flutter | ✅ Ready | [`flutter/`](./flutter/) |
