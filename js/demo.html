@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Credit Badge SDK — Demo</title>
+    <style>
+        body { font-family: system-ui, sans-serif; margin: 0; }
+        .demo-section { padding: 48px 32px; max-width: 800px; margin: 0 auto; }
+        h1 { margin-bottom: 8px; }
+        h2 { margin-top: 48px; margin-bottom: 16px; color: #666; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+        .subtitle { color: #888; margin-bottom: 32px; }
+        .row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+        .name { font-weight: 600; }
+
+        /* Dark demo panel */
+        .dark-panel { background: #060B1E; color: #fff; padding: 32px; border-radius: 16px; margin: 16px 0; }
+        .dark-panel .row { margin-bottom: 20px; }
+        .dark-panel .name { color: #fff; }
+        .dark-panel .meta { color: rgba(255,255,255,0.5); font-size: 13px; }
+
+        /* Light demo panel */
+        .light-panel { background: #f8f9fa; color: #1a1a2e; padding: 32px; border-radius: 16px; margin: 16px 0; border: 1px solid #e5e7eb; }
+        .light-panel .row { margin-bottom: 20px; }
+        .light-panel .name { color: #1a1a2e; }
+        .light-panel .meta { color: rgba(0,0,0,0.45); font-size: 13px; }
+
+        .badge-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 12px 0; }
+        .card-row { display: flex; gap: 16px; flex-wrap: wrap; margin: 12px 0; }
+
+        code { background: #f0f0f0; padding: 2px 8px; border-radius: 4px; font-size: 13px; }
+        pre { background: #1a1a2e; color: #00FFC8; padding: 16px; border-radius: 8px; overflow-x: auto; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="demo-section">
+        <h1>World Credit Badge SDK</h1>
+        <p class="subtitle">Drop-in trust badges for any website or app.</p>
+
+        <!-- ═══ DARK THEME ═══ -->
+        <h2>Dark Theme — Inline Badges (next to names)</h2>
+        <div class="dark-panel">
+            <div class="row">
+                <span class="name">Ryan N.</span>
+                <span class="meta">Superhost · 47 reviews</span>
+                <div data-worldcredit="ryannapp" data-style="inline" data-theme="dark"></div>
+            </div>
+        </div>
+
+        <h2>Dark Theme — Pill Badges</h2>
+        <div class="dark-panel">
+            <div class="badge-row">
+                <div data-worldcredit="ryannapp" data-style="pill" data-theme="dark" data-size="sm"></div>
+                <div data-worldcredit="ryannapp" data-style="pill" data-theme="dark"></div>
+                <div data-worldcredit="ryannapp" data-style="pill" data-theme="dark" data-size="lg"></div>
+            </div>
+        </div>
+
+        <h2>Dark Theme — Card Badges</h2>
+        <div class="dark-panel">
+            <div class="card-row">
+                <div data-worldcredit="ryannapp" data-style="card" data-theme="dark" data-size="sm"></div>
+                <div data-worldcredit="ryannapp" data-style="card" data-theme="dark"></div>
+                <div data-worldcredit="ryannapp" data-style="card" data-theme="dark" data-size="lg"></div>
+            </div>
+        </div>
+
+        <h2>Dark Theme — Shield Badges</h2>
+        <div class="dark-panel">
+            <div class="badge-row">
+                <span class="name">Ryan N.</span>
+                <div data-worldcredit="ryannapp" data-style="shield" data-theme="dark" data-size="sm"></div>
+                <span style="margin-left:24px" class="name">Ryan N.</span>
+                <div data-worldcredit="ryannapp" data-style="shield" data-theme="dark"></div>
+                <span style="margin-left:24px" class="name">Ryan N.</span>
+                <div data-worldcredit="ryannapp" data-style="shield" data-theme="dark" data-size="lg"></div>
+            </div>
+        </div>
+
+        <!-- ═══ LIGHT THEME ═══ -->
+        <h2>Light Theme — Inline Badges</h2>
+        <div class="light-panel">
+            <div class="row">
+                <span class="name">Ryan N.</span>
+                <span class="meta">Superhost · 47 reviews</span>
+                <div data-worldcredit="ryannapp" data-style="inline" data-theme="light"></div>
+            </div>
+        </div>
+
+        <h2>Light Theme — Pill Badges</h2>
+        <div class="light-panel">
+            <div class="badge-row">
+                <div data-worldcredit="ryannapp" data-style="pill" data-theme="light" data-size="sm"></div>
+                <div data-worldcredit="ryannapp" data-style="pill" data-theme="light"></div>
+                <div data-worldcredit="ryannapp" data-style="pill" data-theme="light" data-size="lg"></div>
+            </div>
+        </div>
+
+        <h2>Light Theme — Card Badges</h2>
+        <div class="light-panel">
+            <div class="card-row">
+                <div data-worldcredit="ryannapp" data-style="card" data-theme="light" data-size="sm"></div>
+                <div data-worldcredit="ryannapp" data-style="card" data-theme="light"></div>
+                <div data-worldcredit="ryannapp" data-style="card" data-theme="light" data-size="lg"></div>
+            </div>
+        </div>
+
+        <!-- ═══ INTEGRATION CODE ═══ -->
+        <h2>Integration</h2>
+        <p>Add a single script tag and use <code>data-worldcredit</code> attributes:</p>
+        <pre>&lt;!-- Inline badge next to a username --&gt;
+&lt;span&gt;Ryan N.&lt;/span&gt;
+&lt;div data-worldcredit="ryannapp" data-style="inline"&gt;&lt;/div&gt;
+
+&lt;!-- Pill badge --&gt;
+&lt;div data-worldcredit="ryannapp" data-style="pill" data-theme="light"&gt;&lt;/div&gt;
+
+&lt;!-- Card badge for sidebar --&gt;
+&lt;div data-worldcredit="ryannapp" data-style="card"&gt;&lt;/div&gt;
+
+&lt;!-- Shield (minimal) --&gt;
+&lt;span&gt;Ryan N.&lt;/span&gt;
+&lt;div data-worldcredit="ryannapp" data-style="shield"&gt;&lt;/div&gt;
+
+&lt;!-- Load SDK (place before &lt;/body&gt;) --&gt;
+&lt;script src="https://world-credit.com/sdk/badge.js"&gt;&lt;/script&gt;</pre>
+
+        <h2>Options</h2>
+        <table style="width:100%;border-collapse:collapse;margin:12px 0">
+            <tr style="border-bottom:1px solid #e5e7eb"><th style="text-align:left;padding:8px">Attribute</th><th style="text-align:left;padding:8px">Values</th><th style="text-align:left;padding:8px">Default</th></tr>
+            <tr style="border-bottom:1px solid #e5e7eb"><td style="padding:8px"><code>data-worldcredit</code></td><td style="padding:8px">User handle</td><td style="padding:8px">Required</td></tr>
+            <tr style="border-bottom:1px solid #e5e7eb"><td style="padding:8px"><code>data-style</code></td><td style="padding:8px">inline, pill, card, shield</td><td style="padding:8px">inline</td></tr>
+            <tr style="border-bottom:1px solid #e5e7eb"><td style="padding:8px"><code>data-theme</code></td><td style="padding:8px">dark, light</td><td style="padding:8px">dark</td></tr>
+            <tr><td style="padding:8px"><code>data-size</code></td><td style="padding:8px">sm, md, lg</td><td style="padding:8px">md</td></tr>
+        </table>
+    </div>
+
+    <!-- Load the SDK -->
+    <script src="badge.js"></script>
+</body>
+</html>
