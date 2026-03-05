@@ -1,0 +1,131 @@
+# World Credit Badge SDK — Flutter
+
+Embed verified trust badges in any Flutter app. Supports all platforms (iOS, Android, Web, macOS, Windows, Linux).
+
+## Installation
+
+```yaml
+# pubspec.yaml
+dependencies:
+  worldcredit_badge: ^1.0.0
+```
+
+```bash
+flutter pub get
+```
+
+## Quick Start
+
+```dart
+import 'package:worldcredit_badge/worldcredit_badge.dart';
+
+// Drop any badge into your widget tree
+WCInlineBadge(handle: 'handle')
+```
+
+## Badge Widgets
+
+### WCInlineBadge — sits next to usernames
+
+```dart
+Row(
+  children: [
+    Text('Sarah K.'),
+    const SizedBox(width: 8),
+    WCInlineBadge(handle: 'handle'),
+  ],
+)
+```
+
+### WCPillBadge — compact capsule
+
+```dart
+WCPillBadge(
+  handle: 'handle',
+  theme: WCBadgeTheme.light,
+  size: WCBadgeSize.sm,
+)
+```
+
+### WCCardBadge — rich sidebar display
+
+```dart
+WCCardBadge(handle: 'handle')
+```
+
+### WCShieldBadge — minimal checkmark
+
+```dart
+WCShieldBadge(handle: 'handle')
+```
+
+## Options
+
+| Parameter | Type | Values | Default |
+|-----------|------|--------|---------|
+| `handle` | `String` | User handle | Required |
+| `theme` | `WCBadgeTheme` | `.dark` `.light` | `.dark` |
+| `size` | `WCBadgeSize` | `.sm` `.md` `.lg` | `.md` |
+
+## Themes
+
+```dart
+// Dark theme (default) — for dark backgrounds
+WCPillBadge(handle: 'handle', theme: WCBadgeTheme.dark)
+
+// Light theme — for white/light backgrounds
+WCPillBadge(handle: 'handle', theme: WCBadgeTheme.light)
+```
+
+## Programmatic Fetch
+
+```dart
+// Fetch badge data directly
+final data = await WorldCreditBadge.fetch('handle');
+
+print(data.worldScore);  // 87
+print(data.tier);        // "Platinum"
+print(data.tierColor);   // "#00FFC8"
+print(data.categories);  // [{label: "Reliability", score: 92}, ...]
+```
+
+## Features
+
+- **Auto-caching** — API responses cached in-memory with TTL
+- **Loading states** — Subtle placeholder while fetching
+- **Error handling** — Fails silently, never breaks host app UI
+- **Tap to profile** — Badges open public profile via `url_launcher`
+- **Self-contained** — Just pass a handle string, widget handles everything
+- **Cross-platform** — Works on iOS, Android, Web, macOS, Windows, Linux
+
+## Dependencies
+
+- `http` — API calls
+- `cached_network_image` — Logo caching
+- `url_launcher` — Profile link tap handling
+
+## Requirements
+
+- Flutter >= 3.0
+- Dart >= 3.0
+
+## Trust Tiers
+
+| Tier | Score | Color |
+|------|-------|-------|
+| Bronze | 1 – 19 | `#CD7F32` |
+| Silver | 20 – 49 | `#C0C0C0` |
+| Gold | 50 – 79 | `#FFD700` |
+| Platinum | 80 – 100 | `#00FFC8` |
+
+## Example App
+
+See the full example app in [`example/`](./example/) showing all badge variants.
+
+## Live Demo
+
+See badge styles in action: [world-credit.com/sdk](https://world-credit.com/sdk/)
+
+## License
+
+© 2026 World Credit Inc. All Rights Reserved.
