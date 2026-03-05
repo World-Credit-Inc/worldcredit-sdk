@@ -38,6 +38,18 @@ npm install worldcredit-badge
 | `data-theme` | `dark`, `light` | `dark` |
 | `data-size` | `sm`, `md`, `lg` | `md` |
 
+## Email-Based Lookup (Recommended for B2B)
+
+Look up users by email instead of World Credit handle:
+
+```html
+<!-- Look up by email (recommended for B2B integrations) -->
+<div data-email="user@example.com" data-style="inline"></div>
+
+<!-- Or by handle -->
+<div data-worldcredit="handle" data-style="inline"></div>
+```
+
 ## Unverified Badges
 
 When a handle doesn't have a World Credit account, badges automatically render in a grayed-out **unverified state** that links to `world-credit.com/signup`. No extra code needed.

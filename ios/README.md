@@ -115,6 +115,19 @@ ShieldBadge.minimal(handle: "janedoe")
 
 **Use cases:** Verification indicators, compact trust displays, avatars
 
+## Email-Based Lookup (Recommended for B2B)
+
+Look up users by email instead of World Credit handle:
+
+```swift
+// Look up by email (recommended)
+InlineBadge(email: "user@example.com")
+PillBadge(email: "user@example.com")
+
+// Programmatic fetch
+let data = try await WorldCreditBadge.fetch(handle: "", email: "user@example.com")
+```
+
 ## Unverified Badges
 
 When a user doesn't have a World Credit account, all badges automatically render an **unverified state**:

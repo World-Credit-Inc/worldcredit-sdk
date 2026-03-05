@@ -94,6 +94,23 @@ print(data.tierColor);   // "#00FFC8"
 print(data.categories);  // [{label: "Reliability", score: 92}, ...]
 ```
 
+## Email-Based Lookup (Recommended for B2B)
+
+Companies integrating the SDK can look up users by **email** instead of World Credit handle — your platform already knows your users' emails.
+
+```dart
+// Look up by email (recommended)
+WCInlineBadge(email: 'user@example.com')
+WCPillBadge(email: 'user@example.com')
+
+// Or by World Credit handle
+WCInlineBadge(handle: 'ryannapp')
+
+// Programmatic fetch by email
+final data = await WorldCreditBadge.fetch('', email: 'user@example.com');
+print(data.verified); // true if user has a World Credit account
+```
+
 ## Unverified Badges
 
 When a user doesn't have a World Credit account, all badges automatically render an **unverified state** — no extra code needed.

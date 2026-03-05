@@ -41,6 +41,13 @@ print(data.tier)        // "Platinum"
 
 All badges support **dark/light themes** and **sm/md/lg sizes**.
 
+## Email-Based Lookup (Recommended for B2B)
+
+```swift
+// Look up by email — no need to know World Credit handles
+InlineBadge(email: "user@example.com")
+```
+
 ## Unverified Badges
 
 When a handle doesn't have a World Credit account, badges render in a grayed-out **unverified state** — "Not Verified" text, "?" checkmarks, and a CTA linking to signup. No special handling needed.
