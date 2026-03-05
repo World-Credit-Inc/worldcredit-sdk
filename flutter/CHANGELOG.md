@@ -1,3 +1,9 @@
+## 1.2.2
+
+- **Fix**: Gold/Silver tier text nearly invisible in light mode — bright colors now darkened for readability
+- **Fix**: Shield badge verification dot cut off and misaligned — proper overflow handling and centering
+- **Fix**: Removed customizable `logoUrl` — World Credit logo is always shown as the trust mark
+
 ## 1.2.1
 
 - **Fix**: `BadgeData.fromJson` crash — `linkedNetworks` returned as int (count) from API, not list; `categories` returned as list of objects, not strings
