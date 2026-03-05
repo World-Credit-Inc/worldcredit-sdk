@@ -26,7 +26,9 @@ class WorldCreditBadge {
   /// Fetches badge data for the given handle or email with caching.
   /// If [email] is provided, lookup is by email (handle can be empty).
   static Future<BadgeData> fetch(String handle, {String? email}) async {
-    final normalizedHandle = email?.trim().toLowerCase() ?? handle.trim().toLowerCase();
+    final normalizedHandle = handle.trim().isNotEmpty
+        ? handle.trim().toLowerCase()
+        : (email?.trim().toLowerCase() ?? '');
     
     if (normalizedHandle.isEmpty) {
       throw const BadgeApiException('Handle or email is required');
@@ -45,7 +47,7 @@ class WorldCreditBadge {
     }
 
     // Create new request
-    final futureData = _fetchAndCache(normalizedHandle, email: email);
+    final futureData = _fetchAndCache(handle.trim(), email: email);
     _pendingRequests[normalizedHandle] = futureData;
 
     try {

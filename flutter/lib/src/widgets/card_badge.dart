@@ -311,39 +311,14 @@ class _WCCardBadgeState extends State<WCCardBadge> {
               ),
               
               // Linked networks (if enabled and available)
-              if (widget.showLinkedNetworks && _data!.linkedNetworks.isNotEmpty) ...[
+              if (widget.showLinkedNetworks && _data!.linkedNetworks > 0) ...[
                 SizedBox(height: widget.size.padding * 1.2),
                 
                 Text(
-                  'Linked Networks',
+                  '${_data!.linkedNetworks} Linked Networks',
                   style: theme.getSecondaryTextStyle(widget.size).copyWith(
                     fontWeight: FontWeight.w600,
                   ),
-                ),
-                
-                SizedBox(height: widget.size.padding * 0.5),
-                
-                Wrap(
-                  spacing: widget.size.padding * 0.5,
-                  runSpacing: widget.size.padding * 0.3,
-                  children: _data!.linkedNetworks.map((network) {
-                    return Container(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: widget.size.padding * 0.7,
-                        vertical: widget.size.padding * 0.3,
-                      ),
-                      decoration: BoxDecoration(
-                        color: theme.borderColor.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(widget.size.padding),
-                      ),
-                      child: Text(
-                        network,
-                        style: theme.getSecondaryTextStyle(widget.size).copyWith(
-                          fontSize: widget.size.fontSize * 0.8,
-                        ),
-                      ),
-                    );
-                  }).toList(),
                 ),
               ],
               
@@ -364,6 +339,8 @@ class _WCCardBadgeState extends State<WCCardBadge> {
                   spacing: widget.size.padding * 0.5,
                   runSpacing: widget.size.padding * 0.3,
                   children: _data!.categories.map((category) {
+                    final label = category['label']?.toString() ?? '';
+                    final score = category['score'];
                     return Container(
                       padding: EdgeInsets.symmetric(
                         horizontal: widget.size.padding * 0.7,
@@ -374,7 +351,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
                         borderRadius: BorderRadius.circular(widget.size.padding),
                       ),
                       child: Text(
-                        category,
+                        score != null ? '$label: $score' : label,
                         style: theme.getTierTextStyle(tierColor, widget.size).copyWith(
                           fontSize: widget.size.fontSize * 0.8,
                         ),

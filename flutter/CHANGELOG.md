@@ -1,3 +1,9 @@
+## 1.2.1
+
+- **Fix**: `BadgeData.fromJson` crash — `linkedNetworks` returned as int (count) from API, not list; `categories` returned as list of objects, not strings
+- **Fix**: Email passed as `handle` to `_fetchAndCache` causing misleading error logs
+- Fixed card badge rendering for linked networks count and category objects
+
 ## 1.2.0
 
 - Added email-based lookup — pass `email` instead of `handle` for B2B integrations

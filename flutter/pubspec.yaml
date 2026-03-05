@@ -1,6 +1,6 @@
 name: worldcredit_badge
 description: World Credit Trust Badge SDK for Flutter — embed verified trust scores in any app. Inline, pill, card, and shield badge styles.
-version: 1.2.0
+version: 1.2.1
 homepage: https://world-credit.com/sdk/
 repository: https://github.com/World-Credit-Inc/worldcredit-sdk
 issue_tracker: https://github.com/World-Credit-Inc/worldcredit-sdk/issues

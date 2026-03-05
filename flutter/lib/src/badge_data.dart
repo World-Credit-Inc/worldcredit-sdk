@@ -13,9 +13,9 @@ class BadgeData {
   final String tier;
   final String tierColor;
   final String? photoUrl;
-  final List<String> linkedNetworks;
+  final int linkedNetworks;
   final String profileUrl;
-  final List<String> categories;
+  final List<Map<String, dynamic>> categories;
 
   /// The timestamp when this data was cached
   final DateTime cachedAt;
@@ -49,9 +49,15 @@ class BadgeData {
       tier: json['tier'] ?? 'Unrated',
       tierColor: json['tierColor'] ?? '#4A5568',
       photoUrl: json['photoUrl'],
-      linkedNetworks: List<String>.from(json['linkedNetworks'] ?? []),
+      linkedNetworks: json['linkedNetworks'] is int
+          ? json['linkedNetworks'] as int
+          : (json['linkedNetworks'] is List ? (json['linkedNetworks'] as List).length : 0),
       profileUrl: json['profileUrl'] ?? '',
-      categories: List<String>.from(json['categories'] ?? []),
+      categories: json['categories'] is List
+          ? (json['categories'] as List)
+              .map((e) => e is Map<String, dynamic> ? e : <String, dynamic>{'label': e.toString()})
+              .toList()
+          : <Map<String, dynamic>>[],
       cachedAt: DateTime.now(),
     );
   }
