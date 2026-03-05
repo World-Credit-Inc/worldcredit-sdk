@@ -32,8 +32,6 @@ class WCCardBadge extends StatefulWidget {
   /// Maximum width of the card (null for unlimited)
   final double? maxWidth;
   
-  /// Custom logo URL (uses default World Credit logo if null)
-  final String? logoUrl;
   
   /// Called when badge is tapped (overrides default profile URL opening)
   final VoidCallback? onTap;
@@ -47,7 +45,6 @@ class WCCardBadge extends StatefulWidget {
     this.showLinkedNetworks = true,
     this.showCategories = false,
     this.maxWidth,
-    this.logoUrl,
     this.onTap,
   });
 
@@ -199,7 +196,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
 
     final isUnverified = _data!.isUnverified;
     final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
-    final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
+    const logoUrl = _defaultLogoUrl;
 
     return Material(
       color: Colors.transparent,

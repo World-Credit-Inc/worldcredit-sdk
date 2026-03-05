@@ -29,8 +29,6 @@ class WCShieldBadge extends StatefulWidget {
   /// Position of the checkmark dot relative to the logo
   final ShieldDotPosition dotPosition;
   
-  /// Custom logo URL (uses default World Credit logo if null)
-  final String? logoUrl;
   
   /// Called when badge is tapped (overrides default profile URL opening)
   final VoidCallback? onTap;
@@ -43,7 +41,6 @@ class WCShieldBadge extends StatefulWidget {
     this.size = WCBadgeSize.md,
     this.showTooltip = true,
     this.dotPosition = ShieldDotPosition.bottomRight,
-    this.logoUrl,
     this.onTap,
   });
 
@@ -190,7 +187,7 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
 
     final isUnverified = _data!.isUnverified;
     final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
-    final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
+    const logoUrl = _defaultLogoUrl;
     final dotPosition = getDotPosition();
 
     final dotSize = widget.size.iconSize * 0.35;

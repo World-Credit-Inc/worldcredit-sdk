@@ -26,8 +26,6 @@ class WCInlineBadge extends StatefulWidget {
   /// Whether to show the tier name
   final bool showTier;
   
-  /// Custom logo URL (uses default World Credit logo if null)
-  final String? logoUrl;
   
   /// Called when badge is tapped (overrides default profile URL opening)
   final VoidCallback? onTap;
@@ -39,7 +37,6 @@ class WCInlineBadge extends StatefulWidget {
     this.theme,
     this.size = WCBadgeSize.sm,
     this.showTier = true,
-    this.logoUrl,
     this.onTap,
   });
 
@@ -170,7 +167,7 @@ class _WCInlineBadgeState extends State<WCInlineBadge> {
     }
 
     final tierColor = _data!.tierColorAsColor;
-    final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
+    const logoUrl = _defaultLogoUrl;
 
     return GestureDetector(
       onTap: _handleTap,
