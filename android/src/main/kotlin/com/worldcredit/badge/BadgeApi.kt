@@ -31,16 +31,21 @@ class BadgeApi {
         /**
          * Fetch badge data for a given handle
          */
-        suspend fun fetchBadgeData(handle: String): BadgeResult<BadgeData> = withContext(Dispatchers.IO) {
+        suspend fun fetchBadgeData(handle: String = "", email: String? = null): BadgeResult<BadgeData> = withContext(Dispatchers.IO) {
             try {
+                val cacheKey = email?.lowercase() ?: handle
                 // Check cache first
-                cache[handle]?.let { cachedData ->
-                    Log.d(TAG, "Returning cached data for handle: $handle")
+                cache[cacheKey]?.let { cachedData ->
+                    Log.d(TAG, "Returning cached data for: $cacheKey")
                     return@withContext BadgeResult.Success(cachedData)
                 }
                 
-                val encodedHandle = URLEncoder.encode(handle, "UTF-8")
-                var urlString = "$BASE_URL?handle=$encodedHandle"
+                var urlString = if (!email.isNullOrEmpty()) {
+                    "$BASE_URL?email=${URLEncoder.encode(email.lowercase(), "UTF-8")}"
+                } else {
+                    val encodedHandle = URLEncoder.encode(handle, "UTF-8")
+                    "$BASE_URL?handle=$encodedHandle"
+                }
                 if (apiKey.isNotEmpty()) {
                     urlString += "&key=${URLEncoder.encode(apiKey, "UTF-8")}"
                 }
@@ -74,7 +79,7 @@ class BadgeApi {
                         val badgeData = parseJsonResponse(response)
                         if (badgeData.ok) {
                             // Cache successful response
-                            cache[handle] = badgeData
+                            cache[cacheKey] = badgeData
                             BadgeResult.Success(badgeData)
                         } else {
                             BadgeResult.Error(Exception("API returned ok: false"), "Failed to fetch badge data")

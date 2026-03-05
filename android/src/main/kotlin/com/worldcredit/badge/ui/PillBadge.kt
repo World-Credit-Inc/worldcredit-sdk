@@ -52,7 +52,8 @@ import com.worldcredit.badge.theme.BadgeTypography
  */
 @Composable
 fun PillBadge(
-    handle: String,
+    handle: String = "",
+    email: String? = null,
     theme: BadgeTheme = BadgeTheme.AUTO,
     size: BadgeSize = BadgeSize.MEDIUM,
     modifier: Modifier = Modifier

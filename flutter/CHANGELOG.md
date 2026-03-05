@@ -1,3 +1,10 @@
+## 1.2.0
+
+- Added email-based lookup — pass `email` instead of `handle` for B2B integrations
+- All badge widgets now accept optional `email` parameter
+- API client supports `email` query parameter
+- Companies can now look up users by email (which they already have) instead of World Credit handles
+
 ## 1.1.0
 
 - Added unverified badge state for users without a World Credit account

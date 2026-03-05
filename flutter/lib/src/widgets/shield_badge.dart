@@ -11,8 +11,11 @@ import '../world_credit_badge.dart';
 /// Minimal shield badge: just logo + colored checkmark dot
 /// Perfect for compact spaces where you need verification status only
 class WCShieldBadge extends StatefulWidget {
-  /// The World Credit handle to display
+  /// The World Credit handle to display (optional if email is provided)
   final String handle;
+
+  /// Email address for lookup (preferred over handle for B2B integrations)
+  final String? email;
   
   /// Badge theme (auto-detects if null)
   final WCBadgeTheme? theme;
@@ -34,7 +37,8 @@ class WCShieldBadge extends StatefulWidget {
 
   const WCShieldBadge({
     super.key,
-    required this.handle,
+    this.handle = '',
+    this.email,
     this.theme,
     this.size = WCBadgeSize.md,
     this.showTooltip = true,
@@ -71,7 +75,7 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
   @override
   void didUpdateWidget(WCShieldBadge oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.handle != widget.handle) {
+    if (oldWidget.handle != widget.handle || oldWidget.email != widget.email) {
       _loadBadgeData();
     }
   }
@@ -85,7 +89,7 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
     });
 
     try {
-      final data = await WorldCreditBadge.fetch(widget.handle);
+      final data = await WorldCreditBadge.fetch(widget.handle, email: widget.email);
       if (mounted) {
         setState(() {
           _data = data;

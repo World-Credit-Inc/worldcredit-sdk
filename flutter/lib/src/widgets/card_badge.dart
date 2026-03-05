@@ -11,8 +11,11 @@ import '../world_credit_badge.dart';
 /// Rich card badge: logo, "World Credit" label, large score, tier, and display name
 /// Suitable for profile pages, sidebars, and detailed views
 class WCCardBadge extends StatefulWidget {
-  /// The World Credit handle to display
+  /// The World Credit handle to display (optional if email is provided)
   final String handle;
+
+  /// Email address for lookup (preferred over handle for B2B integrations)
+  final String? email;
   
   /// Badge theme (auto-detects if null)
   final WCBadgeTheme? theme;
@@ -37,7 +40,8 @@ class WCCardBadge extends StatefulWidget {
 
   const WCCardBadge({
     super.key,
-    required this.handle,
+    this.handle = '',
+    this.email,
     this.theme,
     this.size = WCBadgeSize.lg,
     this.showLinkedNetworks = true,
@@ -67,7 +71,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
   @override
   void didUpdateWidget(WCCardBadge oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.handle != widget.handle) {
+    if (oldWidget.handle != widget.handle || oldWidget.email != widget.email) {
       _loadBadgeData();
     }
   }
@@ -81,7 +85,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
     });
 
     try {
-      final data = await WorldCreditBadge.fetch(widget.handle);
+      final data = await WorldCreditBadge.fetch(widget.handle, email: widget.email);
       if (mounted) {
         setState(() {
           _data = data;

@@ -46,24 +46,26 @@ public final class BadgeAPI: ObservableObject {
     }
     
     /// Fetch badge data for a given handle
-    public func fetchBadgeData(handle: String) async throws -> BadgeData {
+    public func fetchBadgeData(handle: String, email: String? = nil) async throws -> BadgeData {
+        let cacheKey = email?.lowercased() ?? handle
+        
         // Return cached data if available
-        if let cached = badgeCache[handle] {
+        if let cached = badgeCache[cacheKey] {
             return cached
         }
         
         // Set loading state
         await MainActor.run {
-            loadingStates[handle] = true
+            loadingStates[cacheKey] = true
         }
         
         defer {
             Task { @MainActor in
-                loadingStates[handle] = false
+                loadingStates[cacheKey] = false
             }
         }
         
-        guard !handle.isEmpty else {
+        guard !handle.isEmpty || (email != nil && !email!.isEmpty) else {
             throw BadgeError.invalidHandle
         }
         
@@ -71,9 +73,12 @@ public final class BadgeAPI: ObservableObject {
             throw BadgeError.invalidURL
         }
         
-        var queryItems = [
-            URLQueryItem(name: "handle", value: handle)
-        ]
+        var queryItems: [URLQueryItem] = []
+        if let email = email, !email.isEmpty {
+            queryItems.append(URLQueryItem(name: "email", value: email.lowercased()))
+        } else {
+            queryItems.append(URLQueryItem(name: "handle", value: handle))
+        }
         if !apiKey.isEmpty {
             queryItems.append(URLQueryItem(name: "key", value: apiKey))
         }
@@ -99,7 +104,7 @@ public final class BadgeAPI: ObservableObject {
             
             // Cache the result
             await MainActor.run {
-                badgeCache[handle] = badgeData
+                badgeCache[cacheKey] = badgeData
             }
             
             return badgeData
@@ -112,10 +117,10 @@ public final class BadgeAPI: ObservableObject {
     }
     
     /// Fetch badge data with completion handler (for backward compatibility)
-    public func fetchBadgeData(handle: String, completion: @escaping (Result<BadgeData, BadgeError>) -> Void) {
+    public func fetchBadgeData(handle: String, email: String? = nil, completion: @escaping (Result<BadgeData, BadgeError>) -> Void) {
         Task {
             do {
-                let data = try await fetchBadgeData(handle: handle)
+                let data = try await fetchBadgeData(handle: handle, email: email)
                 await MainActor.run {
                     completion(.success(data))
                 }

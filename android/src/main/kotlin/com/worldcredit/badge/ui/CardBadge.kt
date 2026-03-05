@@ -61,7 +61,8 @@ import com.worldcredit.badge.theme.BadgeTypography
  */
 @Composable
 fun CardBadge(
-    handle: String,
+    handle: String = "",
+    email: String? = null,
     theme: BadgeTheme = BadgeTheme.AUTO,
     size: BadgeSize = BadgeSize.MEDIUM,
     modifier: Modifier = Modifier

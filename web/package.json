@@ -1,6 +1,6 @@
 {
   "name": "worldcredit-badge",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "World Credit Trust Badge SDK — embed verified trust scores in any website",
   "main": "badge.js",
   "types": "badge.d.ts",

@@ -23,12 +23,13 @@ class WorldCreditBadge {
   /// Maximum cache size (default: 100 entries)
   static int maxCacheSize = 100;
 
-  /// Fetches badge data for the given handle with caching
-  static Future<BadgeData> fetch(String handle) async {
-    final normalizedHandle = handle.trim().toLowerCase();
+  /// Fetches badge data for the given handle or email with caching.
+  /// If [email] is provided, lookup is by email (handle can be empty).
+  static Future<BadgeData> fetch(String handle, {String? email}) async {
+    final normalizedHandle = email?.trim().toLowerCase() ?? handle.trim().toLowerCase();
     
     if (normalizedHandle.isEmpty) {
-      throw const BadgeApiException('Handle cannot be empty');
+      throw const BadgeApiException('Handle or email is required');
     }
 
     // Check cache first
@@ -44,7 +45,7 @@ class WorldCreditBadge {
     }
 
     // Create new request
-    final futureData = _fetchAndCache(normalizedHandle);
+    final futureData = _fetchAndCache(normalizedHandle, email: email);
     _pendingRequests[normalizedHandle] = futureData;
 
     try {
@@ -58,9 +59,9 @@ class WorldCreditBadge {
   }
 
   /// Internal method to fetch data and update cache
-  static Future<BadgeData> _fetchAndCache(String handle) async {
+  static Future<BadgeData> _fetchAndCache(String handle, {String? email}) async {
     try {
-      final data = await BadgeApi.instance.fetchBadgeData(handle);
+      final data = await BadgeApi.instance.fetchBadgeData(handle, email: email);
       
       // Update cache
       _updateCache(handle, data);

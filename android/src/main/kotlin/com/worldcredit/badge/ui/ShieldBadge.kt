@@ -52,7 +52,8 @@ import com.worldcredit.badge.theme.BadgeTheme
  */
 @Composable
 fun ShieldBadge(
-    handle: String,
+    handle: String = "",
+    email: String? = null,
     theme: BadgeTheme = BadgeTheme.AUTO,
     size: BadgeSize = BadgeSize.MEDIUM,
     modifier: Modifier = Modifier
@@ -211,7 +212,8 @@ private fun ShieldBadgeError(
  */
 @Composable
 fun InteractiveShieldBadge(
-    handle: String,
+    handle: String = "",
+    email: String? = null,
     theme: BadgeTheme = BadgeTheme.AUTO,
     size: BadgeSize = BadgeSize.MEDIUM,
     showScore: Boolean = false,

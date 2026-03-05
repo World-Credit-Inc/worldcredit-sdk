@@ -3,6 +3,7 @@ import SwiftUI
 /// Minimal shield badge with just logo and colored checkmark dot
 public struct ShieldBadge: View {
     private let handle: String
+    private let email: String?
     private let theme: BadgeTheme
     private let size: BadgeSize
     private let showCheckmark: Bool
@@ -16,7 +17,8 @@ public struct ShieldBadge: View {
     ///   - size: Badge size (default: medium)
     ///   - showCheckmark: Whether to show tier-colored checkmark dot (default: true)
     public init(
-        handle: String,
+        handle: String = "",
+        email: String? = nil,
         theme: BadgeTheme = .automatic,
         size: BadgeSize = .md,
         showCheckmark: Bool = true

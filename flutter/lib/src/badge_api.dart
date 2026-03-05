@@ -36,13 +36,19 @@ class BadgeApiClient {
     this.apiKey,
   }) : _httpClient = httpClient ?? http.Client();
 
-  /// Fetches badge data for the given handle
-  Future<BadgeData> fetchBadgeData(String handle) async {
-    if (handle.trim().isEmpty) {
-      throw const BadgeApiException('Handle cannot be empty');
+  /// Fetches badge data for the given handle or email.
+  /// If [email] is provided, lookup is by email. Otherwise by [handle].
+  Future<BadgeData> fetchBadgeData(String handle, {String? email}) async {
+    final queryParams = <String, String>{};
+
+    if (email != null && email.trim().isNotEmpty) {
+      queryParams['email'] = email.trim().toLowerCase();
+    } else if (handle.trim().isNotEmpty) {
+      queryParams['handle'] = handle.trim();
+    } else {
+      throw const BadgeApiException('Handle or email is required');
     }
 
-    final queryParams = <String, String>{'handle': handle.trim()};
     if (apiKey != null && apiKey!.isNotEmpty) {
       queryParams['key'] = apiKey!;
     }

@@ -13,7 +13,8 @@
  *   shield  — minimal logo + checkmark
  *
  * Options (data attributes):
- *   data-worldcredit  — user handle (required)
+ *   data-worldcredit  — user handle (required unless data-email is set)
+ *   data-email        — user email for lookup (preferred for B2B integrations)
  *   data-style        — badge style: inline|pill|card|shield (default: inline)
  *   data-theme        — dark|light (default: dark)
  *   data-size         — sm|md|lg (default: md)
@@ -182,25 +183,32 @@
   const renderers = { inline: renderInline, pill: renderPill, card: renderCard, shield: renderShield };
   const styleClasses = { inline: 'wc-inline', pill: 'wc-pill', card: 'wc-card', shield: 'wc-shield' };
 
-  function fetchBadge(handle) {
-    if (CACHE[handle]) return Promise.resolve(CACHE[handle]);
-    let url = `${API}?handle=${encodeURIComponent(handle)}`;
+  function fetchBadge(handle, email) {
+    const cacheKey = email || handle;
+    if (CACHE[cacheKey]) return Promise.resolve(CACHE[cacheKey]);
+    let url;
+    if (email) {
+      url = `${API}?email=${encodeURIComponent(email.toLowerCase())}`;
+    } else {
+      url = `${API}?handle=${encodeURIComponent(handle)}`;
+    }
     if (API_KEY) url += `&key=${encodeURIComponent(API_KEY)}`;
     return fetch(url)
       .then(r => r.json())
-      .then(d => { if (d.ok) CACHE[handle] = d; return d; });
+      .then(d => { if (d.ok) CACHE[cacheKey] = d; return d; });
   }
 
   function renderBadge(el) {
     const handle = (el.getAttribute('data-worldcredit') || '').replace(/^@/, '');
-    if (!handle) return;
+    const email = el.getAttribute('data-email') || '';
+    if (!handle && !email) return;
 
     const badgeStyle = el.getAttribute('data-style') || 'inline';
     const theme = el.getAttribute('data-theme') || 'dark';
     const size = el.getAttribute('data-size') || 'md';
     const isSelf = el.getAttribute('data-self') === 'true';
 
-    fetchBadge(handle).then(data => {
+    fetchBadge(handle, email).then(data => {
       if (!data || !data.ok) return;
 
       // If this is the user's own profile and they're unverified, override profileUrl to signup CTA

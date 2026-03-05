@@ -11,8 +11,11 @@ import '../world_credit_badge.dart';
 /// Compact pill badge: [logo] [score] [tier tag]
 /// More prominent than inline, suitable for profiles and cards
 class WCPillBadge extends StatefulWidget {
-  /// The World Credit handle to display
+  /// The World Credit handle to display (optional if email is provided)
   final String handle;
+
+  /// Email address for lookup (preferred over handle for B2B integrations)
+  final String? email;
   
   /// Badge theme (auto-detects if null)
   final WCBadgeTheme? theme;
@@ -34,7 +37,8 @@ class WCPillBadge extends StatefulWidget {
 
   const WCPillBadge({
     super.key,
-    required this.handle,
+    this.handle = '',
+    this.email,
     this.theme,
     this.size = WCBadgeSize.md,
     this.showTier = true,
@@ -63,7 +67,7 @@ class _WCPillBadgeState extends State<WCPillBadge> {
   @override
   void didUpdateWidget(WCPillBadge oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.handle != widget.handle) {
+    if (oldWidget.handle != widget.handle || oldWidget.email != widget.email) {
       _loadBadgeData();
     }
   }
@@ -77,7 +81,7 @@ class _WCPillBadgeState extends State<WCPillBadge> {
     });
 
     try {
-      final data = await WorldCreditBadge.fetch(widget.handle);
+      final data = await WorldCreditBadge.fetch(widget.handle, email: widget.email);
       if (mounted) {
         setState(() {
           _data = data;

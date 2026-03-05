@@ -3,6 +3,7 @@ import SwiftUI
 /// Rich card badge showing logo, "World Credit" label, large score, and tier
 public struct CardBadge: View {
     private let handle: String
+    private let email: String?
     private let theme: BadgeTheme
     private let width: CGFloat?
     private let showUserInfo: Bool
@@ -16,7 +17,8 @@ public struct CardBadge: View {
     ///   - width: Fixed width for the card (default: adaptive)
     ///   - showUserInfo: Whether to show user display name and handle (default: true)
     public init(
-        handle: String,
+        handle: String = "",
+        email: String? = nil,
         theme: BadgeTheme = .automatic,
         width: CGFloat? = nil,
         showUserInfo: Bool = true

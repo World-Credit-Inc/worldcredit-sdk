@@ -3,6 +3,7 @@ import SwiftUI
 /// Tiny pill badge that sits inline next to text: [WC logo] 52 · Gold
 public struct InlineBadge: View {
     private let handle: String
+    private let email: String?
     private let theme: BadgeTheme
     private let size: BadgeSize
     
@@ -14,14 +15,16 @@ public struct InlineBadge: View {
     ///   - theme: Visual theme (default: automatic)
     ///   - size: Badge size (default: small)
     public init(
-        handle: String,
+        handle: String = "",
+        email: String? = nil,
         theme: BadgeTheme = .automatic,
         size: BadgeSize = .sm
     ) {
         self.handle = handle
+        self.email = email
         self.theme = theme
         self.size = size
-        self._dataModel = StateObject(wrappedValue: BadgeDataModel(handle: handle))
+        self._dataModel = StateObject(wrappedValue: BadgeDataModel(handle: handle, email: email))
     }
     
     /// Initialize with pre-fetched badge data

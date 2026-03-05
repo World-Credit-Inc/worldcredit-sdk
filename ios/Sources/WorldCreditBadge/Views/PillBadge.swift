@@ -3,6 +3,7 @@ import SwiftUI
 /// Compact pill badge with logo, score, and tier tag in a capsule
 public struct PillBadge: View {
     private let handle: String
+    private let email: String?
     private let theme: BadgeTheme
     private let size: BadgeSize
     private let showTierTag: Bool
@@ -16,7 +17,8 @@ public struct PillBadge: View {
     ///   - size: Badge size (default: medium)
     ///   - showTierTag: Whether to show colored tier tag (default: true)
     public init(
-        handle: String,
+        handle: String = "",
+        email: String? = nil,
         theme: BadgeTheme = .automatic,
         size: BadgeSize = .md,
         showTierTag: Bool = true

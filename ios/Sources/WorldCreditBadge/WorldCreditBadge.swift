@@ -67,28 +67,31 @@ public final class BadgeDataModel: ObservableObject {
     @Published public var error: BadgeError?
     
     private let handle: String
+    private let email: String?
     private let api = BadgeAPI.shared
     
-    public init(handle: String) {
+    public init(handle: String, email: String? = nil) {
         self.handle = handle
+        self.email = email
         loadData()
     }
     
-    /// Load badge data for the configured handle
+    /// Load badge data for the configured handle or email
     public func loadData() {
-        guard !handle.isEmpty else {
+        let cacheKey = email ?? handle
+        guard !cacheKey.isEmpty else {
             error = .invalidHandle
             return
         }
         
         // Check cache first
-        if let cached = api.getCached(handle: handle) {
+        if let cached = api.getCached(handle: cacheKey) {
             badgeData = cached
             return
         }
         
         // Don't reload if already loading
-        if api.isLoading(handle: handle) {
+        if api.isLoading(handle: cacheKey) {
             isLoading = true
             return
         }
@@ -98,7 +101,7 @@ public final class BadgeDataModel: ObservableObject {
             error = nil
             
             do {
-                let data = try await api.fetchBadgeData(handle: handle)
+                let data = try await api.fetchBadgeData(handle: handle, email: email)
                 badgeData = data
             } catch let badgeError as BadgeError {
                 error = badgeError
@@ -117,7 +120,7 @@ public final class BadgeDataModel: ObservableObject {
             error = nil
             
             do {
-                let data = try await api.fetchBadgeData(handle: handle)
+                let data = try await api.fetchBadgeData(handle: handle, email: email)
                 badgeData = data
             } catch let badgeError as BadgeError {
                 error = badgeError
