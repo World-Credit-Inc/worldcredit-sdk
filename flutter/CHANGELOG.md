@@ -1,3 +1,8 @@
+## 1.0.1
+
+- Added API key configuration to Quick Start documentation
+- API key is required — get yours at world-credit.com
+
 ## 1.0.0
 
 - Initial release

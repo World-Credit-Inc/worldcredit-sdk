@@ -19,9 +19,14 @@ flutter pub get
 ```dart
 import 'package:worldcredit_badge/worldcredit_badge.dart';
 
+// Initialize with your API key (call once, typically in main())
+WorldCreditBadge.configure(apiKey: 'your-api-key');
+
 // Drop any badge into your widget tree
 WCInlineBadge(handle: 'handle')
 ```
+
+> **API key required.** Get yours at [world-credit.com](https://world-credit.com) — sign up for a plan under [Pricing](https://world-credit.com/#pricing).
 
 ## Badge Widgets
 

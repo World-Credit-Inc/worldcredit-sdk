@@ -108,6 +108,9 @@ fun UserList() {
 ### Basic Usage
 
 ```kotlin
+// Initialize with your API key (call once, typically in Application.onCreate)
+WorldCreditBadge.configure(apiKey = "your-api-key")
+
 // Simple Compose usage
 InlineBadge(handle = "janedoe")
 PillBadge(handle = "janedoe", theme = BadgeTheme.Dark, size = BadgeSize.Large)

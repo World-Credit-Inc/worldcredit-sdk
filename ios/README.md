@@ -26,11 +26,14 @@ A SwiftUI package for displaying World Credit trust badges in iOS applications.
 
 ## Quick Start
 
-Import the package and start using badges:
+Import the package, configure your API key, and start using badges:
 
 ```swift
 import SwiftUI
 import WorldCreditBadge
+
+// Initialize with your API key (call once, typically in AppDelegate or @main App)
+WorldCreditBadge.configure(apiKey: "your-api-key")
 
 struct ContentView: View {
     var body: some View {
