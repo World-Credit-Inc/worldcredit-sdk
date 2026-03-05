@@ -128,8 +128,10 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
             ),
           ),
           Positioned(
-            bottom: 0,
-            right: 0,
+            top: widget.dotPosition == ShieldDotPosition.topLeft || widget.dotPosition == ShieldDotPosition.topRight ? 0.0 : null,
+            bottom: widget.dotPosition == ShieldDotPosition.bottomLeft || widget.dotPosition == ShieldDotPosition.bottomRight ? 0.0 : null,
+            left: widget.dotPosition == ShieldDotPosition.topLeft || widget.dotPosition == ShieldDotPosition.bottomLeft ? 0.0 : null,
+            right: widget.dotPosition == ShieldDotPosition.topRight || widget.dotPosition == ShieldDotPosition.bottomRight ? 0.0 : null,
             child: Container(
               width: shimmerDotSize,
               height: shimmerDotSize,
@@ -235,8 +237,10 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
             
             // Tier-colored verification dot with checkmark (or "?" if unverified)
             Positioned(
-              bottom: 0,
-              right: 0,
+              top: widget.dotPosition == ShieldDotPosition.topLeft || widget.dotPosition == ShieldDotPosition.topRight ? 0.0 : null,
+              bottom: widget.dotPosition == ShieldDotPosition.bottomLeft || widget.dotPosition == ShieldDotPosition.bottomRight ? 0.0 : null,
+              left: widget.dotPosition == ShieldDotPosition.topLeft || widget.dotPosition == ShieldDotPosition.bottomLeft ? 0.0 : null,
+              right: widget.dotPosition == ShieldDotPosition.topRight || widget.dotPosition == ShieldDotPosition.bottomRight ? 0.0 : null,
               child: Container(
                 width: dotSize,
                 height: dotSize,
