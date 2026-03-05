@@ -9,7 +9,7 @@ Embed verified trust badges in any Flutter app. Supports all platforms (iOS, And
 ```yaml
 # pubspec.yaml
 dependencies:
-  worldcredit_badge: ^1.2.2
+  worldcredit_badge: ^1.2.3
 ```
 
 ```bash

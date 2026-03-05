@@ -2,7 +2,6 @@
 library;
 
 import 'package:flutter/material.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../badge_data.dart';
 import '../badge_theme.dart';
@@ -61,7 +60,6 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
   bool _isLoading = true;
   bool _hasError = false;
 
-  static const String _defaultLogoUrl = 'https://worldcredit-c266e.web.app/WorldCreditAppLogo.png';
 
   @override
   void initState() {
@@ -187,55 +185,60 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
 
     final isUnverified = _data!.isUnverified;
     final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
-    const logoUrl = _defaultLogoUrl;
-    final dotPosition = getDotPosition();
-
-    final dotSize = widget.size.iconSize * 0.35;
-    final dotOverflow = dotSize * 0.3;
+    final badgeSize = widget.size.iconSize;
+    final dotSize = badgeSize * 0.4;
 
     Widget shieldWidget = GestureDetector(
       onTap: _handleTap,
       child: SizedBox(
-        width: widget.size.iconSize + dotOverflow,
-        height: widget.size.iconSize + dotOverflow,
+        width: badgeSize + dotSize * 0.3,
+        height: badgeSize + dotSize * 0.3,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            // Main logo
-            Opacity(
-              opacity: isUnverified ? 0.5 : 1.0,
-              child: SizedBox(
-                width: widget.size.iconSize,
-                height: widget.size.iconSize,
-                child: CachedNetworkImage(
-                  imageUrl: logoUrl,
-                  fadeInDuration: const Duration(milliseconds: 200),
-                  errorWidget: (context, url, error) => Container(
-                    decoration: BoxDecoration(
-                      color: theme.backgroundColor,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                        color: theme.borderColor,
-                        width: theme.borderWidth,
+            // Main logo — circular container with W letter
+            Positioned(
+              top: 0,
+              left: 0,
+              child: Opacity(
+                opacity: isUnverified ? 0.5 : 1.0,
+                child: Container(
+                  width: badgeSize,
+                  height: badgeSize,
+                  decoration: BoxDecoration(
+                    color: theme.isDark ? const Color(0xFF1A2332) : Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: tierColor.withOpacity(0.4),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(theme.isDark ? 0.3 : 0.1),
+                        blurRadius: 3,
+                        offset: const Offset(0, 1),
+                      ),
+                    ],
+                  ),
+                  child: Center(
+                    child: Text(
+                      'W',
+                      style: TextStyle(
+                        fontSize: badgeSize * 0.5,
+                        fontWeight: FontWeight.w800,
+                        color: tierColor,
+                        height: 1.0,
                       ),
                     ),
-                    child: Icon(
-                      Icons.verified,
-                      size: widget.size.iconSize * 0.6,
-                      color: tierColor,
-                    ),
                   ),
-                  fit: BoxFit.contain,
                 ),
               ),
             ),
             
             // Tier-colored verification dot (or "?" if unverified)
             Positioned(
-              top: dotPosition['top'] != null ? dotPosition['top']! + dotOverflow / 2 : null,
-              right: dotPosition['right'] != null ? dotPosition['right']! + dotOverflow / 2 : null,
-              bottom: dotPosition['bottom'] != null ? dotPosition['bottom']! + dotOverflow / 2 : null,
-              left: dotPosition['left'] != null ? dotPosition['left']! + dotOverflow / 2 : null,
+              bottom: 0,
+              right: 0,
               child: Container(
                 width: dotSize,
                 height: dotSize,

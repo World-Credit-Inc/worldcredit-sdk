@@ -1,3 +1,8 @@
+## 1.2.3
+
+- **Fix**: Shield badge redesigned — replaced oversized app icon with clean circular "W" + tier-colored dot
+- **Fix**: Shield dot properly positioned, no more clipping or misalignment
+
 ## 1.2.2
 
 - **Fix**: Gold/Silver tier text nearly invisible in light mode — bright colors now darkened for readability
