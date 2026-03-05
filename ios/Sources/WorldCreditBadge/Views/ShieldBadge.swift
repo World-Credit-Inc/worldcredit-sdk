@@ -83,6 +83,10 @@ private struct BadgeContent: View {
     let size: BadgeSize
     let showCheckmark: Bool
     
+    private var effectiveTierColor: Color {
+        badgeData.isUnverified ? .gray : badgeData.tierType.color
+    }
+    
     var body: some View {
         ZStack {
             // Main logo/shield background
@@ -90,27 +94,34 @@ private struct BadgeContent: View {
                 .fill(theme.backgroundColor)
                 .overlay(
                     Circle()
-                        .stroke(badgeData.tierType.color.opacity(0.3), lineWidth: 2)
+                        .stroke(effectiveTierColor.opacity(0.3), lineWidth: 2)
                 )
                 .frame(width: size.rawValue, height: size.rawValue)
             
             // World Credit logo
             WorldCreditLogo(size: size.rawValue * 0.6)
+                .opacity(badgeData.isUnverified ? 0.5 : 1.0)
             
             if showCheckmark {
-                // Tier-colored checkmark dot in top-right corner
+                // Tier-colored checkmark dot (or "?" if unverified) in top-right corner
                 VStack {
                     HStack {
                         Spacer()
                         
                         ZStack {
                             Circle()
-                                .fill(badgeData.tierType.color)
+                                .fill(effectiveTierColor)
                                 .frame(width: size.rawValue * 0.35, height: size.rawValue * 0.35)
                             
-                            Image(systemName: "checkmark")
-                                .font(.system(size: size.rawValue * 0.15, weight: .bold))
-                                .foregroundColor(.white)
+                            if badgeData.isUnverified {
+                                Text("?")
+                                    .font(.system(size: size.rawValue * 0.15, weight: .bold))
+                                    .foregroundColor(.white)
+                            } else {
+                                Image(systemName: "checkmark")
+                                    .font(.system(size: size.rawValue * 0.15, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
                         }
                         .offset(x: size.rawValue * 0.1, y: -size.rawValue * 0.1)
                     }

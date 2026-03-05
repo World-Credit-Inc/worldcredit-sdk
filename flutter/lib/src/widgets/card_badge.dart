@@ -193,7 +193,8 @@ class _WCCardBadgeState extends State<WCCardBadge> {
       return _buildShimmer(theme);
     }
 
-    final tierColor = _data!.tierColorAsColor;
+    final isUnverified = _data!.isUnverified;
+    final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
     final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
 
     return Material(
@@ -213,24 +214,27 @@ class _WCCardBadgeState extends State<WCCardBadge> {
               Row(
                 children: [
                   // World Credit logo
-                  SizedBox(
-                    width: widget.size.iconSize * 1.5,
-                    height: widget.size.iconSize * 1.5,
-                    child: CachedNetworkImage(
-                      imageUrl: logoUrl,
-                      fadeInDuration: const Duration(milliseconds: 200),
-                      errorWidget: (context, url, error) => Container(
-                        decoration: BoxDecoration(
-                          color: tierColor.withOpacity(0.1),
-                          shape: BoxShape.circle,
+                  Opacity(
+                    opacity: isUnverified ? 0.5 : 1.0,
+                    child: SizedBox(
+                      width: widget.size.iconSize * 1.5,
+                      height: widget.size.iconSize * 1.5,
+                      child: CachedNetworkImage(
+                        imageUrl: logoUrl,
+                        fadeInDuration: const Duration(milliseconds: 200),
+                        errorWidget: (context, url, error) => Container(
+                          decoration: BoxDecoration(
+                            color: tierColor.withOpacity(0.1),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Icon(
+                            Icons.verified,
+                            size: widget.size.iconSize,
+                            color: tierColor,
+                          ),
                         ),
-                        child: Icon(
-                          Icons.verified,
-                          size: widget.size.iconSize,
-                          color: tierColor,
-                        ),
+                        fit: BoxFit.contain,
                       ),
-                      fit: BoxFit.contain,
                     ),
                   ),
                   
@@ -271,11 +275,13 @@ class _WCCardBadgeState extends State<WCCardBadge> {
               Row(
                 children: [
                   Text(
-                    _data!.worldScore.toString(),
+                    isUnverified ? 'Not Verified' : _data!.worldScore.toString(),
                     style: theme.getScoreTextStyle(widget.size).copyWith(
                       fontSize: widget.size.fontSize * 2.2,
                       fontWeight: FontWeight.w800,
-                      color: tierColor,
+                      color: isUnverified
+                          ? theme.getScoreTextStyle(widget.size).color?.withOpacity(0.5)
+                          : tierColor,
                     ),
                   ),
                   
@@ -287,10 +293,14 @@ class _WCCardBadgeState extends State<WCCardBadge> {
                       horizontal: widget.size.padding,
                       vertical: widget.size.padding * 0.5,
                     ),
-                    decoration: theme.getTierDecoration(tierColor),
+                    decoration: isUnverified
+                        ? theme.getTierDecoration(Colors.grey)
+                        : theme.getTierDecoration(tierColor),
                     child: Text(
-                      _data!.displayTier,
-                      style: theme.getTierTextStyle(tierColor, widget.size),
+                      isUnverified ? 'GET VERIFIED →' : _data!.displayTier,
+                      style: isUnverified
+                          ? theme.getTierTextStyle(Colors.grey, widget.size)
+                          : theme.getTierTextStyle(tierColor, widget.size),
                     ),
                   ),
                 ],

@@ -87,27 +87,36 @@ private struct BadgeContent: View {
         BadgeStyle(theme: theme, tierType: badgeData.tierType)
     }
     
+    private var effectiveTierColor: Color {
+        badgeData.isUnverified ? .gray : style.tierColor
+    }
+    
     var body: some View {
         HStack(spacing: 8) {
             // World Credit logo
             WorldCreditLogo(size: size.rawValue)
+                .opacity(badgeData.isUnverified ? 0.5 : 1.0)
             
             VStack(alignment: .leading, spacing: 2) {
-                // Score
-                Text("\(badgeData.worldScore)")
+                // Score (or "—" if unverified)
+                Text(badgeData.isUnverified ? "—" : "\(badgeData.worldScore)")
                     .font(.system(size: size.rawValue * 0.7, weight: .bold))
-                    .foregroundColor(theme.textColor)
+                    .foregroundColor(badgeData.isUnverified
+                        ? theme.textColor.opacity(0.5)
+                        : theme.textColor)
                 
-                // Tier name
-                Text(badgeData.tierType.rawValue.uppercased())
+                // Tier name (or "NOT VERIFIED" if unverified)
+                Text(badgeData.isUnverified
+                    ? "NOT VERIFIED"
+                    : badgeData.tierType.rawValue.uppercased())
                     .font(.system(size: size.rawValue * 0.4, weight: .medium))
-                    .foregroundColor(theme.secondaryTextColor)
+                    .foregroundColor(badgeData.isUnverified ? .gray : theme.secondaryTextColor)
             }
             
             if showTierTag {
                 // Tier color indicator
                 Capsule()
-                    .fill(badgeData.tierType.color)
+                    .fill(effectiveTierColor)
                     .frame(width: 4, height: size.rawValue * 0.8)
             }
         }
@@ -118,7 +127,7 @@ private struct BadgeContent: View {
                 .fill(theme.backgroundColor)
                 .overlay(
                     RoundedRectangle(cornerRadius: theme.cornerRadius * 2)
-                        .stroke(style.tierColor.opacity(0.3), lineWidth: theme.borderWidth)
+                        .stroke(effectiveTierColor.opacity(0.3), lineWidth: theme.borderWidth)
                 )
                 .shadow(
                     color: theme.shadowColor,

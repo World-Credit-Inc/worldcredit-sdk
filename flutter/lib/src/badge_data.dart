@@ -6,6 +6,7 @@ import 'dart:ui';
 /// Represents the response from the World Credit Badge API
 class BadgeData {
   final bool ok;
+  final bool verified;
   final String handle;
   final String displayName;
   final int worldScore;
@@ -19,8 +20,12 @@ class BadgeData {
   /// The timestamp when this data was cached
   final DateTime cachedAt;
 
+  /// Whether the user is unverified (no World Credit account)
+  bool get isUnverified => !verified;
+
   const BadgeData({
     required this.ok,
+    this.verified = true,
     required this.handle,
     required this.displayName,
     required this.worldScore,
@@ -37,6 +42,7 @@ class BadgeData {
   factory BadgeData.fromJson(Map<String, dynamic> json) {
     return BadgeData(
       ok: json['ok'] ?? false,
+      verified: json['verified'] ?? true,
       handle: json['handle'] ?? '',
       displayName: json['displayName'] ?? '',
       worldScore: json['worldScore'] ?? 0,
@@ -54,6 +60,7 @@ class BadgeData {
   BadgeData copyWith({DateTime? cachedAt}) {
     return BadgeData(
       ok: ok,
+      verified: verified,
       handle: handle,
       displayName: displayName,
       worldScore: worldScore,
@@ -94,6 +101,8 @@ class BadgeData {
         return 'Gold';
       case 'platinum':
         return 'Platinum';
+      case 'unverified':
+        return 'Not Verified';
       default:
         return 'Unrated';
     }

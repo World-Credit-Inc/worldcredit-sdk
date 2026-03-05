@@ -22,6 +22,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -123,7 +124,7 @@ private fun ShieldBadgeContent(
     sizeScale: Float,
     onClick: () -> Unit
 ) {
-    val tierColor = BadgeColors.getTierColor(badgeData.tierEnum)
+    val tierColor = if (badgeData.isUnverified) Color.Gray else BadgeColors.getTierColor(badgeData.tierEnum)
     
     Box(
         modifier = Modifier
@@ -138,9 +139,10 @@ private fun ShieldBadgeContent(
             modifier = Modifier
                 .size(16.dp * sizeScale)
                 .clip(CircleShape)
+                .alpha(if (badgeData.isUnverified) 0.5f else 1f)
         )
         
-        // Tier color dot indicator positioned on top-right
+        // Tier color dot indicator positioned on top-right (or "?" if unverified)
         Box(
             modifier = Modifier
                 .size(BadgeDimensions.shieldDotSize * sizeScale)
@@ -153,8 +155,18 @@ private fun ShieldBadgeContent(
                     color = colors.surface,
                     shape = CircleShape
                 )
-                .align(Alignment.TopEnd)
-        )
+                .align(Alignment.TopEnd),
+            contentAlignment = Alignment.Center
+        ) {
+            if (badgeData.isUnverified) {
+                Text(
+                    text = "?",
+                    fontSize = (6 * sizeScale).sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White
+                )
+            }
+        }
     }
 }
 

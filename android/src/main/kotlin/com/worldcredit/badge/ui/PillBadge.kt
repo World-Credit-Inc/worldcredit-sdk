@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -123,7 +124,7 @@ private fun PillBadgeContent(
     sizeScale: Float,
     onClick: () -> Unit
 ) {
-    val tierColor = BadgeColors.getTierColor(badgeData.tierEnum)
+    val tierColor = if (badgeData.isUnverified) Color.Gray else BadgeColors.getTierColor(badgeData.tierEnum)
     
     Row(
         horizontalArrangement = Arrangement.spacedBy(BadgeDimensions.pillSpacing * sizeScale),
@@ -136,18 +137,20 @@ private fun PillBadgeContent(
         AsyncImage(
             model = WorldCreditBadge.getLogoUrl(),
             contentDescription = "World Credit Logo",
-            modifier = Modifier.size((BadgeDimensions.logoSize + 4.dp) * sizeScale)
+            modifier = Modifier
+                .size((BadgeDimensions.logoSize + 4.dp) * sizeScale)
+                .alpha(if (badgeData.isUnverified) 0.5f else 1f)
         )
         
-        // Score
+        // Score (or "—" if unverified)
         Text(
-            text = badgeData.getShortDisplay(),
+            text = if (badgeData.isUnverified) "—" else badgeData.getShortDisplay(),
             fontSize = BadgeTypography.scoreTextSize * sizeScale,
             fontWeight = FontWeight.Bold,
-            color = colors.onSurface
+            color = if (badgeData.isUnverified) colors.onSurface.copy(alpha = 0.5f) else colors.onSurface
         )
         
-        // Tier tag
+        // Tier tag (or "NOT VERIFIED" if unverified)
         Box(
             modifier = Modifier
                 .background(
@@ -162,7 +165,7 @@ private fun PillBadgeContent(
                 .padding(horizontal = 6.dp * sizeScale, vertical = 2.dp * sizeScale)
         ) {
             Text(
-                text = badgeData.tier.uppercase(),
+                text = if (badgeData.isUnverified) "NOT VERIFIED" else badgeData.tier.uppercase(),
                 fontSize = BadgeTypography.tierTextSize * sizeScale,
                 fontWeight = FontWeight.Bold,
                 color = tierColor

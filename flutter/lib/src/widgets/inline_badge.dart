@@ -212,42 +212,54 @@ class _WCInlineBadgeState extends State<WCInlineBadge> {
             
             SizedBox(width: widget.size.padding * 0.5),
             
-            // World score
-            Text(
-              _data!.worldScore.toString(),
-              style: TextStyle(
-                fontSize: widget.size.fontSize,
-                fontWeight: FontWeight.w600,
-                color: theme.textColor,
-                height: 1.0,
-              ),
-            ),
-            
-            if (widget.showTier) ...[
-              SizedBox(width: widget.size.padding * 0.5),
-              
-              // Separator dot
+            // World score or "Not Verified"
+            if (_data!.isUnverified) ...[
               Text(
-                '·',
-                style: TextStyle(
-                  fontSize: widget.size.fontSize,
-                  color: theme.textColor.withOpacity(0.4),
-                  height: 1.0,
-                ),
-              ),
-              
-              SizedBox(width: widget.size.padding * 0.5),
-              
-              // Tier name
-              Text(
-                _data!.displayTier,
+                'Not Verified',
                 style: TextStyle(
                   fontSize: widget.size.fontSize * 0.9,
                   fontWeight: FontWeight.w500,
-                  color: theme.getTierTextColor(tierColor),
+                  color: theme.textColor.withOpacity(0.5),
                   height: 1.0,
                 ),
               ),
+            ] else ...[
+              Text(
+                _data!.worldScore.toString(),
+                style: TextStyle(
+                  fontSize: widget.size.fontSize,
+                  fontWeight: FontWeight.w600,
+                  color: theme.textColor,
+                  height: 1.0,
+                ),
+              ),
+              
+              if (widget.showTier) ...[
+                SizedBox(width: widget.size.padding * 0.5),
+                
+                // Separator dot
+                Text(
+                  '·',
+                  style: TextStyle(
+                    fontSize: widget.size.fontSize,
+                    color: theme.textColor.withOpacity(0.4),
+                    height: 1.0,
+                  ),
+                ),
+                
+                SizedBox(width: widget.size.padding * 0.5),
+                
+                // Tier name
+                Text(
+                  _data!.displayTier,
+                  style: TextStyle(
+                    fontSize: widget.size.fontSize * 0.9,
+                    fontWeight: FontWeight.w500,
+                    color: theme.getTierTextColor(tierColor),
+                    height: 1.0,
+                  ),
+                ),
+              ],
             ],
           ],
         ),

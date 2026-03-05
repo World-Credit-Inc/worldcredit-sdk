@@ -131,26 +131,38 @@ private fun InlineBadgeContent(
         AsyncImage(
             model = WorldCreditBadge.getLogoUrl(),
             contentDescription = "World Credit Logo",
-            modifier = Modifier.size(BadgeDimensions.logoSize * sizeScale)
-        )
-        
-        // Score and tier text
-        Text(
-            text = badgeData.getScoreDisplay(),
-            fontSize = BadgeTypography.scoreTextSize * sizeScale,
-            fontWeight = FontWeight.Medium,
-            color = colors.onSurface
-        )
-        
-        // Tier color indicator
-        Box(
             modifier = Modifier
-                .size(6.dp * sizeScale)
-                .background(
-                    color = BadgeColors.getTierColor(badgeData.tierEnum),
-                    shape = RoundedCornerShape(50)
-                )
+                .size(BadgeDimensions.logoSize * sizeScale)
+                .alpha(if (badgeData.isUnverified) 0.5f else 1f)
         )
+        
+        if (badgeData.isUnverified) {
+            // "Not Verified" text in muted color
+            Text(
+                text = "Not Verified",
+                fontSize = BadgeTypography.scoreTextSize * sizeScale,
+                fontWeight = FontWeight.Medium,
+                color = colors.onSurfaceVariant
+            )
+        } else {
+            // Score and tier text
+            Text(
+                text = badgeData.getScoreDisplay(),
+                fontSize = BadgeTypography.scoreTextSize * sizeScale,
+                fontWeight = FontWeight.Medium,
+                color = colors.onSurface
+            )
+            
+            // Tier color indicator
+            Box(
+                modifier = Modifier
+                    .size(6.dp * sizeScale)
+                    .background(
+                        color = BadgeColors.getTierColor(badgeData.tierEnum),
+                        shape = RoundedCornerShape(50)
+                    )
+            )
+        }
     }
 }
 

@@ -87,11 +87,16 @@ private struct BadgeContent: View {
         BadgeStyle(theme: theme, tierType: badgeData.tierType)
     }
     
+    private var effectiveTierColor: Color {
+        badgeData.isUnverified ? .gray : style.tierColor
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             // Header with logo and branding
             HStack(spacing: 8) {
                 WorldCreditLogo(size: 24)
+                    .opacity(badgeData.isUnverified ? 0.5 : 1.0)
                 
                 VStack(alignment: .leading, spacing: 1) {
                     Text("World Credit")
@@ -99,70 +104,91 @@ private struct BadgeContent: View {
                         .fontWeight(.medium)
                         .foregroundColor(theme.textColor)
                     
-                    Text("Trust Score")
+                    Text(badgeData.isUnverified ? "Unverified" : "Trust Score")
                         .font(.caption2)
                         .foregroundColor(theme.secondaryTextColor)
                 }
                 
                 Spacer()
                 
-                // Tier badge
-                Text(badgeData.tierType.rawValue.uppercased())
-                    .font(.caption2)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(
-                        Capsule()
-                            .fill(badgeData.tierType.color)
-                    )
+                // Tier badge (or "GET VERIFIED →" if unverified)
+                if badgeData.isUnverified {
+                    Text("GET VERIFIED →")
+                        .font(.caption2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            Capsule()
+                                .fill(Color.gray)
+                        )
+                } else {
+                    Text(badgeData.tierType.rawValue.uppercased())
+                        .font(.caption2)
+                        .fontWeight(.semibold)
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 6)
+                        .padding(.vertical, 2)
+                        .background(
+                            Capsule()
+                                .fill(badgeData.tierType.color)
+                        )
+                }
             }
             
-            // Large score display
+            // Large score display (or "Not Verified" if unverified)
             VStack(alignment: .leading, spacing: 4) {
-                Text("\(badgeData.worldScore)")
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
-                    .foregroundColor(style.tierColor)
-                
-                Text("out of 100")
-                    .font(.caption)
-                    .foregroundColor(theme.secondaryTextColor)
-            }
-            
-            // Tier indicator bar
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Text(badgeData.tierType.rawValue)
-                        .font(.subheadline)
-                        .fontWeight(.medium)
-                        .foregroundColor(theme.textColor)
+                if badgeData.isUnverified {
+                    Text("Not Verified")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(theme.textColor.opacity(0.5))
+                } else {
+                    Text("\(badgeData.worldScore)")
+                        .font(.system(size: 36, weight: .bold, design: .rounded))
+                        .foregroundColor(effectiveTierColor)
                     
-                    Spacer()
-                    
-                    Text(tierRange(for: badgeData.tierType))
+                    Text("out of 100")
                         .font(.caption)
                         .foregroundColor(theme.secondaryTextColor)
                 }
-                
-                // Progress bar
-                GeometryReader { geometry in
-                    ZStack(alignment: .leading) {
-                        // Background track
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(theme.borderColor)
-                            .frame(height: 4)
+            }
+            
+            if !badgeData.isUnverified {
+                // Tier indicator bar (only for verified users)
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(badgeData.tierType.rawValue)
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundColor(theme.textColor)
                         
-                        // Progress fill
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(badgeData.tierType.color)
-                            .frame(
-                                width: geometry.size.width * progressPercentage(for: badgeData),
-                                height: 4
-                            )
+                        Spacer()
+                        
+                        Text(tierRange(for: badgeData.tierType))
+                            .font(.caption)
+                            .foregroundColor(theme.secondaryTextColor)
                     }
+                    
+                    // Progress bar
+                    GeometryReader { geometry in
+                        ZStack(alignment: .leading) {
+                            // Background track
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(theme.borderColor)
+                                .frame(height: 4)
+                            
+                            // Progress fill
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(badgeData.tierType.color)
+                                .frame(
+                                    width: geometry.size.width * progressPercentage(for: badgeData),
+                                    height: 4
+                                )
+                        }
+                    }
+                    .frame(height: 4)
                 }
-                .frame(height: 4)
             }
             
             if showUserInfo {
@@ -193,7 +219,7 @@ private struct BadgeContent: View {
                 .fill(theme.backgroundColor)
                 .overlay(
                     RoundedRectangle(cornerRadius: theme.cornerRadius)
-                        .stroke(style.tierColor.opacity(0.2), lineWidth: theme.borderWidth)
+                        .stroke(effectiveTierColor.opacity(0.2), lineWidth: theme.borderWidth)
                 )
                 .shadow(
                     color: theme.shadowColor,

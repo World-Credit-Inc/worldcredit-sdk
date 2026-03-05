@@ -3,6 +3,7 @@ import SwiftUI
 /// Represents a user's World Credit badge data
 public struct BadgeData: Codable, Sendable {
     public let ok: Bool
+    public let verified: Bool
     public let handle: String
     public let displayName: String?
     public let worldScore: Int
@@ -13,6 +14,9 @@ public struct BadgeData: Codable, Sendable {
     public let profileUrl: String
     public let categories: [String]?
     
+    /// Whether the user is unverified (no World Credit account)
+    public var isUnverified: Bool { !verified }
+    
     /// Computed tier type for easier handling
     public var tierType: TierType {
         TierType.from(score: worldScore)
@@ -21,6 +25,53 @@ public struct BadgeData: Codable, Sendable {
     /// Computed tier color as SwiftUI Color
     public var color: Color {
         Color(hex: tierColor) ?? tierType.color
+    }
+    
+    /// Coding keys with verified defaulting to true for backwards compatibility
+    enum CodingKeys: String, CodingKey {
+        case ok, verified, handle, displayName, worldScore, tier, tierColor
+        case photoUrl, linkedNetworks, profileUrl, categories
+    }
+    
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        ok = try container.decode(Bool.self, forKey: .ok)
+        verified = try container.decodeIfPresent(Bool.self, forKey: .verified) ?? true
+        handle = try container.decode(String.self, forKey: .handle)
+        displayName = try container.decodeIfPresent(String.self, forKey: .displayName)
+        worldScore = try container.decode(Int.self, forKey: .worldScore)
+        tier = try container.decode(String.self, forKey: .tier)
+        tierColor = try container.decode(String.self, forKey: .tierColor)
+        photoUrl = try container.decodeIfPresent(String.self, forKey: .photoUrl)
+        linkedNetworks = try container.decodeIfPresent([String].self, forKey: .linkedNetworks)
+        profileUrl = try container.decode(String.self, forKey: .profileUrl)
+        categories = try container.decodeIfPresent([String].self, forKey: .categories)
+    }
+    
+    public init(
+        ok: Bool,
+        verified: Bool = true,
+        handle: String,
+        displayName: String?,
+        worldScore: Int,
+        tier: String,
+        tierColor: String,
+        photoUrl: String?,
+        linkedNetworks: [String]?,
+        profileUrl: String,
+        categories: [String]?
+    ) {
+        self.ok = ok
+        self.verified = verified
+        self.handle = handle
+        self.displayName = displayName
+        self.worldScore = worldScore
+        self.tier = tier
+        self.tierColor = tierColor
+        self.photoUrl = photoUrl
+        self.linkedNetworks = linkedNetworks
+        self.profileUrl = profileUrl
+        self.categories = categories
     }
 }
 

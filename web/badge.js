@@ -94,35 +94,47 @@
   `;
   document.head.appendChild(style);
 
+  const UNVERIFIED_COLOR = '#4A5568';
+  const UNVERIFIED_BG = 'rgba(74,85,104,.1)';
+  const UNVERIFIED_BORDER = 'rgba(74,85,104,.2)';
+
   function tierColors(tier) {
     const t = (tier || '').toLowerCase();
     return {
-      platinum: { color: '#00FFC8', bg: 'rgba(0,255,200,.1)',  border: 'rgba(0,255,200,.2)'  },
-      gold:     { color: '#FFD700', bg: 'rgba(255,215,0,.1)',  border: 'rgba(255,215,0,.2)'  },
-      silver:   { color: '#C0C0C0', bg: 'rgba(192,192,192,.1)',border: 'rgba(192,192,192,.2)'},
-      bronze:   { color: '#CD7F32', bg: 'rgba(205,127,50,.1)', border: 'rgba(205,127,50,.2)' },
-      unrated:  { color: '#4A5568', bg: 'rgba(74,85,104,.1)',  border: 'rgba(74,85,104,.2)'  },
-    }[t] || { color: '#4A5568', bg: 'rgba(74,85,104,.1)', border: 'rgba(74,85,104,.2)' };
+      platinum:   { color: '#00FFC8', bg: 'rgba(0,255,200,.1)',  border: 'rgba(0,255,200,.2)'  },
+      gold:       { color: '#FFD700', bg: 'rgba(255,215,0,.1)',  border: 'rgba(255,215,0,.2)'  },
+      silver:     { color: '#C0C0C0', bg: 'rgba(192,192,192,.1)',border: 'rgba(192,192,192,.2)'},
+      bronze:     { color: '#CD7F32', bg: 'rgba(205,127,50,.1)', border: 'rgba(205,127,50,.2)' },
+      unrated:    { color: UNVERIFIED_COLOR, bg: UNVERIFIED_BG,  border: UNVERIFIED_BORDER     },
+      unverified: { color: UNVERIFIED_COLOR, bg: UNVERIFIED_BG,  border: UNVERIFIED_BORDER     },
+    }[t] || { color: UNVERIFIED_COLOR, bg: UNVERIFIED_BG, border: UNVERIFIED_BORDER };
   }
 
   function tierColorsLight(tier) {
     const t = (tier || '').toLowerCase();
     return {
-      platinum: { color: '#009B7D', bg: 'rgba(0,155,125,.08)',  border: 'rgba(0,155,125,.18)'  },
-      gold:     { color: '#B8960F', bg: 'rgba(184,150,15,.08)', border: 'rgba(184,150,15,.18)' },
-      silver:   { color: '#6B7280', bg: 'rgba(107,114,128,.08)',border: 'rgba(107,114,128,.18)'},
-      bronze:   { color: '#92600A', bg: 'rgba(146,96,10,.08)', border: 'rgba(146,96,10,.18)'  },
-      unrated:  { color: '#9CA3AF', bg: 'rgba(156,163,175,.08)',border: 'rgba(156,163,175,.18)'},
+      platinum:   { color: '#009B7D', bg: 'rgba(0,155,125,.08)',  border: 'rgba(0,155,125,.18)'  },
+      gold:       { color: '#B8960F', bg: 'rgba(184,150,15,.08)', border: 'rgba(184,150,15,.18)' },
+      silver:     { color: '#6B7280', bg: 'rgba(107,114,128,.08)',border: 'rgba(107,114,128,.18)'},
+      bronze:     { color: '#92600A', bg: 'rgba(146,96,10,.08)', border: 'rgba(146,96,10,.18)'  },
+      unrated:    { color: '#9CA3AF', bg: 'rgba(156,163,175,.08)',border: 'rgba(156,163,175,.18)'},
+      unverified: { color: '#9CA3AF', bg: 'rgba(156,163,175,.08)',border: 'rgba(156,163,175,.18)'},
     }[t] || { color: '#9CA3AF', bg: 'rgba(156,163,175,.08)', border: 'rgba(156,163,175,.18)' };
   }
+
+  function isUnverified(data) { return data.verified === false; }
 
   function renderInline(data, tc, theme) {
     const a = document.createElement('a');
     a.href = data.profileUrl;
     a.target = '_blank';
     a.rel = 'noopener';
-    a.style.cssText = `background:${tc.bg};border-color:${tc.border};color:${tc.color}`;
-    a.innerHTML = `<img src="${LOGO}" alt="WC">${data.worldScore} · ${data.tier}`;
+    a.style.cssText = `background:${tc.bg};border-color:${tc.border};color:${tc.color}${isUnverified(data) ? ';opacity:.7' : ''}`;
+    if (isUnverified(data)) {
+      a.innerHTML = `<img src="${LOGO}" alt="WC" style="opacity:.5">Not Verified`;
+    } else {
+      a.innerHTML = `<img src="${LOGO}" alt="WC">${data.worldScore} · ${data.tier}`;
+    }
     return a;
   }
 
@@ -131,7 +143,11 @@
     a.href = data.profileUrl;
     a.target = '_blank';
     a.rel = 'noopener';
-    a.innerHTML = `<img src="${LOGO}" alt="WC"><span class="wc-pill-score" style="color:${tc.color}">${data.worldScore}</span><span class="wc-pill-tier" style="background:${tc.bg};color:${tc.color}">${data.tier.toUpperCase()}</span>`;
+    if (isUnverified(data)) {
+      a.innerHTML = `<img src="${LOGO}" alt="WC" style="opacity:.5"><span class="wc-pill-score" style="color:${tc.color}">—</span><span class="wc-pill-tier" style="background:${tc.bg};color:${tc.color}">NOT VERIFIED</span>`;
+    } else {
+      a.innerHTML = `<img src="${LOGO}" alt="WC"><span class="wc-pill-score" style="color:${tc.color}">${data.worldScore}</span><span class="wc-pill-tier" style="background:${tc.bg};color:${tc.color}">${data.tier.toUpperCase()}</span>`;
+    }
     return a;
   }
 
@@ -140,7 +156,11 @@
     a.href = data.profileUrl;
     a.target = '_blank';
     a.rel = 'noopener';
-    a.innerHTML = `<img src="${LOGO}" alt="WC"><div class="wc-card-label">World Credit</div><div class="wc-card-score" style="color:${tc.color}">${data.worldScore}</div><div class="wc-card-tier" style="background:${tc.bg};color:${tc.color}">${data.tier.toUpperCase()}</div>`;
+    if (isUnverified(data)) {
+      a.innerHTML = `<img src="${LOGO}" alt="WC" style="opacity:.5"><div class="wc-card-label">World Credit</div><div class="wc-card-score" style="color:${tc.color};font-size:16px">Not Verified</div><div class="wc-card-tier" style="background:${tc.bg};color:${tc.color}">GET VERIFIED →</div>`;
+    } else {
+      a.innerHTML = `<img src="${LOGO}" alt="WC"><div class="wc-card-label">World Credit</div><div class="wc-card-score" style="color:${tc.color}">${data.worldScore}</div><div class="wc-card-tier" style="background:${tc.bg};color:${tc.color}">${data.tier.toUpperCase()}</div>`;
+    }
     return a;
   }
 
@@ -149,8 +169,13 @@
     a.href = data.profileUrl;
     a.target = '_blank';
     a.rel = 'noopener';
-    a.title = `World Credit: ${data.worldScore} (${data.tier})`;
-    a.innerHTML = `<img class="" src="${LOGO}" alt="WC"><div class="wc-shield-check" style="background:${tc.color};color:${theme === 'light' ? '#fff' : '#060B1E'}">✓</div>`;
+    if (isUnverified(data)) {
+      a.title = 'World Credit: Not Verified';
+      a.innerHTML = `<img src="${LOGO}" alt="WC" style="opacity:.4"><div class="wc-shield-check" style="background:${tc.color};color:${theme === 'light' ? '#fff' : '#060B1E'}">?</div>`;
+    } else {
+      a.title = `World Credit: ${data.worldScore} (${data.tier})`;
+      a.innerHTML = `<img src="${LOGO}" alt="WC"><div class="wc-shield-check" style="background:${tc.color};color:${theme === 'light' ? '#fff' : '#060B1E'}">✓</div>`;
+    }
     return a;
   }
 
@@ -173,9 +198,15 @@
     const badgeStyle = el.getAttribute('data-style') || 'inline';
     const theme = el.getAttribute('data-theme') || 'dark';
     const size = el.getAttribute('data-size') || 'md';
+    const isSelf = el.getAttribute('data-self') === 'true';
 
     fetchBadge(handle).then(data => {
       if (!data || !data.ok) return;
+
+      // If this is the user's own profile and they're unverified, override profileUrl to signup CTA
+      if (isSelf && isUnverified(data)) {
+        data.profileUrl = data.profileUrl || 'https://world-credit.com/signup';
+      }
 
       const tc = theme === 'light' ? tierColorsLight(data.tier) : tierColors(data.tier);
       const renderer = renderers[badgeStyle] || renderers.inline;

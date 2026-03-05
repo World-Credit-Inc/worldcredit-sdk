@@ -29,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
@@ -132,7 +133,7 @@ private fun CardBadgeContent(
     sizeScale: Float,
     onClick: () -> Unit
 ) {
-    val tierColor = BadgeColors.getTierColor(badgeData.tierEnum)
+    val tierColor = if (badgeData.isUnverified) Color.Gray else BadgeColors.getTierColor(badgeData.tierEnum)
     
     Column(
         modifier = Modifier
@@ -149,7 +150,9 @@ private fun CardBadgeContent(
             AsyncImage(
                 model = WorldCreditBadge.getLogoUrl(),
                 contentDescription = "World Credit Logo",
-                modifier = Modifier.size(24.dp * sizeScale)
+                modifier = Modifier
+                    .size(24.dp * sizeScale)
+                    .alpha(if (badgeData.isUnverified) 0.5f else 1f)
             )
             
             Text(
@@ -166,15 +169,15 @@ private fun CardBadgeContent(
         Column(
             verticalArrangement = Arrangement.spacedBy(6.dp * sizeScale)
         ) {
-            // Large score display
+            // Large score display (or "Not Verified" if unverified)
             Text(
-                text = badgeData.worldScore.toString(),
+                text = if (badgeData.isUnverified) "Not Verified" else badgeData.worldScore.toString(),
                 fontSize = BadgeTypography.cardScoreSize * sizeScale,
                 fontWeight = FontWeight.Bold,
-                color = colors.onSurface
+                color = if (badgeData.isUnverified) colors.onSurface.copy(alpha = 0.5f) else colors.onSurface
             )
             
-            // Tier badge
+            // Tier badge (or "GET VERIFIED →" if unverified)
             Box(
                 modifier = Modifier
                     .background(
@@ -189,7 +192,7 @@ private fun CardBadgeContent(
                     .padding(horizontal = 10.dp * sizeScale, vertical = 4.dp * sizeScale)
             ) {
                 Text(
-                    text = badgeData.tier.uppercase(),
+                    text = if (badgeData.isUnverified) "GET VERIFIED →" else badgeData.tier.uppercase(),
                     fontSize = BadgeTypography.cardTierSize * sizeScale,
                     fontWeight = FontWeight.Bold,
                     color = tierColor

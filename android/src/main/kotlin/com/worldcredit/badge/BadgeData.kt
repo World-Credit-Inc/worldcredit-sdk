@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class BadgeData(
     val ok: Boolean,
+    val verified: Boolean = true,
     val handle: String,
     val displayName: String,
     val worldScore: Int,
@@ -19,6 +20,12 @@ data class BadgeData(
     val profileUrl: String,
     val categories: List<String>
 ) : Parcelable {
+    
+    /**
+     * Whether the user is unverified (no World Credit account)
+     */
+    val isUnverified: Boolean
+        get() = !verified
     
     /**
      * Get the tier enum based on the score

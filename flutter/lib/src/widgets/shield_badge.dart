@@ -163,6 +163,10 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
 
   String getTooltipMessage() {
     if (_data == null) return '';
+    if (_data!.isUnverified) {
+      return '${_data!.displayName.isNotEmpty ? _data!.displayName : '@${_data!.handle}'}\n'
+             'Not Verified';
+    }
     return '${_data!.displayName.isNotEmpty ? _data!.displayName : '@${_data!.handle}'}\n'
            'World Credit Score: ${_data!.worldScore}\n'
            'Tier: ${_data!.displayTier}';
@@ -180,7 +184,8 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
       return _buildShimmer(theme);
     }
 
-    final tierColor = _data!.tierColorAsColor;
+    final isUnverified = _data!.isUnverified;
+    final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
     final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
     final dotPosition = getDotPosition();
 
@@ -192,32 +197,35 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
         child: Stack(
           children: [
             // Main logo
-            SizedBox(
-              width: widget.size.iconSize,
-              height: widget.size.iconSize,
-              child: CachedNetworkImage(
-                imageUrl: logoUrl,
-                fadeInDuration: const Duration(milliseconds: 200),
-                errorWidget: (context, url, error) => Container(
-                  decoration: BoxDecoration(
-                    color: theme.backgroundColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: theme.borderColor,
-                      width: theme.borderWidth,
+            Opacity(
+              opacity: isUnverified ? 0.5 : 1.0,
+              child: SizedBox(
+                width: widget.size.iconSize,
+                height: widget.size.iconSize,
+                child: CachedNetworkImage(
+                  imageUrl: logoUrl,
+                  fadeInDuration: const Duration(milliseconds: 200),
+                  errorWidget: (context, url, error) => Container(
+                    decoration: BoxDecoration(
+                      color: theme.backgroundColor,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: theme.borderColor,
+                        width: theme.borderWidth,
+                      ),
+                    ),
+                    child: Icon(
+                      Icons.verified,
+                      size: widget.size.iconSize * 0.6,
+                      color: tierColor,
                     ),
                   ),
-                  child: Icon(
-                    Icons.verified,
-                    size: widget.size.iconSize * 0.6,
-                    color: tierColor,
-                  ),
+                  fit: BoxFit.contain,
                 ),
-                fit: BoxFit.contain,
               ),
             ),
             
-            // Tier-colored verification dot
+            // Tier-colored verification dot (or "?" if unverified)
             Positioned(
               top: dotPosition['top'],
               right: dotPosition['right'],
@@ -241,11 +249,23 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
                     ),
                   ],
                 ),
-                child: Icon(
-                  Icons.check,
-                  size: widget.size.iconSize * 0.15,
-                  color: Colors.white,
-                ),
+                child: isUnverified
+                    ? Center(
+                        child: Text(
+                          '?',
+                          style: TextStyle(
+                            fontSize: widget.size.iconSize * 0.15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            height: 1.0,
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        Icons.check,
+                        size: widget.size.iconSize * 0.15,
+                        color: Colors.white,
+                      ),
               ),
             ),
           ],

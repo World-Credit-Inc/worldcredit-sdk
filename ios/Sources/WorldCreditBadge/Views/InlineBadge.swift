@@ -74,12 +74,20 @@ private struct BadgeContent: View {
         HStack(spacing: 4) {
             // World Credit logo
             WorldCreditLogo(size: size.iconSize)
+                .opacity(badgeData.isUnverified ? 0.5 : 1.0)
             
-            // Score and tier text
-            Text(badgeData.scoreDisplayText)
-                .font(.system(size: size.rawValue * 0.6, weight: .medium))
-                .foregroundColor(theme.textColor)
-                .lineLimit(1)
+            // Score and tier text (or "Not Verified")
+            if badgeData.isUnverified {
+                Text("Not Verified")
+                    .font(.system(size: size.rawValue * 0.6, weight: .medium))
+                    .foregroundColor(theme.secondaryTextColor)
+                    .lineLimit(1)
+            } else {
+                Text(badgeData.scoreDisplayText)
+                    .font(.system(size: size.rawValue * 0.6, weight: .medium))
+                    .foregroundColor(theme.textColor)
+                    .lineLimit(1)
+            }
         }
         .padding(.horizontal, 6)
         .padding(.vertical, 2)
@@ -88,7 +96,12 @@ private struct BadgeContent: View {
                 .fill(theme.backgroundColor)
                 .overlay(
                     Capsule()
-                        .stroke(badgeData.tierType.color.opacity(0.3), lineWidth: 1)
+                        .stroke(
+                            badgeData.isUnverified
+                                ? Color.gray.opacity(0.3)
+                                : badgeData.tierType.color.opacity(0.3),
+                            lineWidth: 1
+                        )
                 )
         )
         .profileTappable(badgeData)

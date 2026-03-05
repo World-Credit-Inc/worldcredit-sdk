@@ -160,7 +160,8 @@ class _WCPillBadgeState extends State<WCPillBadge> {
       return _buildShimmer(theme);
     }
 
-    final tierColor = _data!.tierColorAsColor;
+    final isUnverified = _data!.isUnverified;
+    final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
     final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
 
     return Material(
@@ -181,24 +182,27 @@ class _WCPillBadgeState extends State<WCPillBadge> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // World Credit logo
-              SizedBox(
-                width: widget.size.iconSize,
-                height: widget.size.iconSize,
-                child: CachedNetworkImage(
-                  imageUrl: logoUrl,
-                  fadeInDuration: const Duration(milliseconds: 200),
-                  errorWidget: (context, url, error) => Container(
-                    decoration: BoxDecoration(
-                      color: tierColor.withOpacity(0.1),
-                      shape: BoxShape.circle,
+              Opacity(
+                opacity: isUnverified ? 0.5 : 1.0,
+                child: SizedBox(
+                  width: widget.size.iconSize,
+                  height: widget.size.iconSize,
+                  child: CachedNetworkImage(
+                    imageUrl: logoUrl,
+                    fadeInDuration: const Duration(milliseconds: 200),
+                    errorWidget: (context, url, error) => Container(
+                      decoration: BoxDecoration(
+                        color: tierColor.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        Icons.verified,
+                        size: widget.size.iconSize * 0.6,
+                        color: tierColor,
+                      ),
                     ),
-                    child: Icon(
-                      Icons.verified,
-                      size: widget.size.iconSize * 0.6,
-                      color: tierColor,
-                    ),
+                    fit: BoxFit.contain,
                   ),
-                  fit: BoxFit.contain,
                 ),
               ),
               
@@ -224,25 +228,33 @@ class _WCPillBadgeState extends State<WCPillBadge> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      // World score
+                      // World score (or "—" if unverified)
                       Text(
-                        _data!.worldScore.toString(),
-                        style: theme.getScoreTextStyle(widget.size),
+                        isUnverified ? '—' : _data!.worldScore.toString(),
+                        style: theme.getScoreTextStyle(widget.size).copyWith(
+                          color: isUnverified
+                              ? theme.getScoreTextStyle(widget.size).color?.withOpacity(0.5)
+                              : null,
+                        ),
                       ),
                       
                       if (widget.showTier) ...[
                         SizedBox(width: widget.size.padding),
                         
-                        // Tier tag
+                        // Tier tag (or "NOT VERIFIED" if unverified)
                         Container(
                           padding: EdgeInsets.symmetric(
                             horizontal: widget.size.padding * 0.8,
                             vertical: widget.size.padding * 0.3,
                           ),
-                          decoration: theme.getTierDecoration(tierColor),
+                          decoration: isUnverified
+                              ? theme.getTierDecoration(Colors.grey)
+                              : theme.getTierDecoration(tierColor),
                           child: Text(
-                            _data!.displayTier,
-                            style: theme.getTierTextStyle(tierColor, widget.size),
+                            isUnverified ? 'NOT VERIFIED' : _data!.displayTier,
+                            style: isUnverified
+                                ? theme.getTierTextStyle(Colors.grey, widget.size)
+                                : theme.getTierTextStyle(tierColor, widget.size),
                           ),
                         ),
                       ],
