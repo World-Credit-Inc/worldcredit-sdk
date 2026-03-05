@@ -94,20 +94,20 @@ object BadgeColors {
             )
         }
     }
-}
 
-/**
- * Color scheme data class
- */
-data class BadgeColorScheme(
-    val background: Color,
-    val surface: Color,
-    val surfaceVariant: Color,
-    val onBackground: Color,
-    val onSurface: Color,
-    val onSurfaceVariant: Color,
-    val outline: Color
-)
+    /**
+     * Color scheme data class
+     */
+    data class BadgeColorScheme(
+        val background: Color,
+        val surface: Color,
+        val surfaceVariant: Color,
+        val onBackground: Color,
+        val onSurface: Color,
+        val onSurfaceVariant: Color,
+        val outline: Color
+    )
+}
 
 /**
  * Typography and sizing for badges
