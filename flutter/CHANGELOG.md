@@ -1,3 +1,8 @@
+## 1.0.2
+
+- Moved Package.swift to repo root for proper SPM compatibility
+- No code changes — metadata only
+
 ## 1.0.1
 
 - Added API key configuration to Quick Start documentation
