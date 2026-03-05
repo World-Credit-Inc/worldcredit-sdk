@@ -26,10 +26,14 @@ class BadgeApiClient {
 
   final http.Client _httpClient;
   final Duration timeout;
+  
+  /// API key for authenticated access
+  String? apiKey;
 
   BadgeApiClient({
     http.Client? httpClient,
     this.timeout = _defaultTimeout,
+    this.apiKey,
   }) : _httpClient = httpClient ?? http.Client();
 
   /// Fetches badge data for the given handle
@@ -38,8 +42,13 @@ class BadgeApiClient {
       throw const BadgeApiException('Handle cannot be empty');
     }
 
+    final queryParams = <String, String>{'handle': handle.trim()};
+    if (apiKey != null && apiKey!.isNotEmpty) {
+      queryParams['key'] = apiKey!;
+    }
+
     final uri = Uri.parse(_baseUrl).replace(
-      queryParameters: {'handle': handle.trim()},
+      queryParameters: queryParams,
     );
 
     try {

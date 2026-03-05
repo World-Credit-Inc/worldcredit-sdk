@@ -10,6 +10,9 @@ public final class BadgeAPI: ObservableObject {
     private let session: URLSession
     private let imageCache = NSCache<NSString, UIImage>()
     
+    /// API key for authenticated access
+    private(set) var apiKey: String = ""
+    
     /// Cache for badge data (handle -> BadgeData)
     @Published private var badgeCache: [String: BadgeData] = [:]
     
@@ -68,9 +71,13 @@ public final class BadgeAPI: ObservableObject {
             throw BadgeError.invalidURL
         }
         
-        urlComponents.queryItems = [
+        var queryItems = [
             URLQueryItem(name: "handle", value: handle)
         ]
+        if !apiKey.isEmpty {
+            queryItems.append(URLQueryItem(name: "key", value: apiKey))
+        }
+        urlComponents.queryItems = queryItems
         
         guard let url = urlComponents.url else {
             throw BadgeError.invalidURL

@@ -25,6 +25,9 @@ class BadgeApi {
         
         private val cache = mutableMapOf<String, BadgeData>()
         
+        /** API key for authenticated access */
+        internal var apiKey: String = ""
+        
         /**
          * Fetch badge data for a given handle
          */
@@ -37,7 +40,10 @@ class BadgeApi {
                 }
                 
                 val encodedHandle = URLEncoder.encode(handle, "UTF-8")
-                val urlString = "$BASE_URL?handle=$encodedHandle"
+                var urlString = "$BASE_URL?handle=$encodedHandle"
+                if (apiKey.isNotEmpty()) {
+                    urlString += "&key=${URLEncoder.encode(apiKey, "UTF-8")}"
+                }
                 
                 Log.d(TAG, "Fetching badge data from: $urlString")
                 

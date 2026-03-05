@@ -11,6 +11,12 @@ public final class WorldCreditBadge {
     
     private init() {}
     
+    /// Configure the SDK with your API key. Call this before using any badge features.
+    /// - Parameter apiKey: Your World Credit API key (e.g. "wc_live_xxx")
+    public static func configure(apiKey: String) {
+        BadgeAPI.shared.apiKey = apiKey
+    }
+    
     /// Fetch badge data for a given handle using async/await
     /// - Parameter handle: The user handle to fetch badge data for
     /// - Returns: BadgeData containing user's trust information

@@ -26,6 +26,10 @@
   const FONT_URL = 'https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap';
   const CACHE = {};
 
+  // Read API key from pre-configured global or default to empty
+  const _cfg = window.WorldCredit || {};
+  const API_KEY = _cfg.apiKey || '';
+
   // Inject font
   if (!document.querySelector('link[href*="Inter"]')) {
     const link = document.createElement('link');
@@ -155,7 +159,9 @@
 
   function fetchBadge(handle) {
     if (CACHE[handle]) return Promise.resolve(CACHE[handle]);
-    return fetch(`${API}?handle=${encodeURIComponent(handle)}`)
+    let url = `${API}?handle=${encodeURIComponent(handle)}`;
+    if (API_KEY) url += `&key=${encodeURIComponent(API_KEY)}`;
+    return fetch(url)
       .then(r => r.json())
       .then(d => { if (d.ok) CACHE[handle] = d; return d; });
   }
@@ -195,10 +201,10 @@
     init();
   }
 
-  // Expose global API for dynamic badge creation
-  window.WorldCredit = {
+  // Expose global API for dynamic badge creation (preserve apiKey if set before load)
+  window.WorldCredit = Object.assign({}, _cfg, {
     render: renderBadge,
     renderAll: init,
     fetch: fetchBadge,
-  };
+  });
 })();

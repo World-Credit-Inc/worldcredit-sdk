@@ -25,6 +25,17 @@ object WorldCreditBadge {
     private const val TAG = "WorldCreditBadge"
     
     /**
+     * Configure the SDK with your API key. Call this before using any badge features.
+     * Typically called in Application.onCreate().
+     *
+     * @param apiKey Your World Credit API key (e.g. "wc_live_xxx")
+     */
+    fun configure(apiKey: String) {
+        BadgeApi.apiKey = apiKey
+        Log.d(TAG, "SDK configured with API key")
+    }
+    
+    /**
      * Fetch badge data for a given handle asynchronously
      * 
      * @param handle The user handle to fetch badge data for

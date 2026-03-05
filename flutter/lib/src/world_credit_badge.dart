@@ -11,6 +11,12 @@ class WorldCreditBadge {
   static final Map<String, BadgeData> _cache = {};
   static final Map<String, Future<BadgeData>> _pendingRequests = {};
   
+  /// Configure the SDK with your API key. Call this before using any badge features.
+  /// Typically called in main() before runApp().
+  static void configure({required String apiKey}) {
+    BadgeApi.instance.apiKey = apiKey;
+  }
+  
   /// Cache duration in minutes (default: 5 minutes)
   static Duration cacheDuration = const Duration(minutes: 5);
   
