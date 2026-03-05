@@ -1,3 +1,13 @@
+## 1.1.0
+
+- Added unverified badge state for users without a World Credit account
+- Inline: "Not Verified" in muted gray
+- Pill: "—" score with "NOT VERIFIED" tag
+- Card: "Not Verified" with "GET VERIFIED →" CTA
+- Shield: "?" instead of checkmark
+- Added `verified` field to BadgeData model
+- Unverified badges link to world-credit.com/signup
+
 ## 1.0.3
 
 - Moved Package.swift to repo root for proper SPM compatibility

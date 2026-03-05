@@ -115,6 +115,30 @@ ShieldBadge.minimal(handle: "janedoe")
 
 **Use cases:** Verification indicators, compact trust displays, avatars
 
+## Unverified Badges
+
+When a user doesn't have a World Credit account, all badges automatically render an **unverified state**:
+
+| Style | Unverified Behavior |
+|-------|-------------------|
+| `InlineBadge` | Shows "Not Verified" in muted gray |
+| `PillBadge` | Shows "—" score with "NOT VERIFIED" tag |
+| `CardBadge` | Shows "Not Verified" with "GET VERIFIED →" CTA |
+| `ShieldBadge` | Shows "?" instead of checkmark |
+
+Tapping an unverified badge takes the user to `world-credit.com/signup`. No special handling needed — just pass any handle.
+
+```swift
+// Works for both verified and unverified users
+InlineBadge(handle: "any-handle")
+
+// Check programmatically
+let data = try await WorldCreditBadge.fetch(handle: "handle")
+if !data.verified {
+    // User hasn't signed up yet
+}
+```
+
 ## Themes
 
 Three built-in themes adapt to your app's design:

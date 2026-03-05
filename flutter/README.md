@@ -94,6 +94,30 @@ print(data.tierColor);   // "#00FFC8"
 print(data.categories);  // [{label: "Reliability", score: 92}, ...]
 ```
 
+## Unverified Badges
+
+When a user doesn't have a World Credit account, all badges automatically render an **unverified state** — no extra code needed.
+
+| Style | Unverified Behavior |
+|-------|-------------------|
+| `WCInlineBadge` | Shows "Not Verified" in muted gray |
+| `WCPillBadge` | Shows "—" score with "NOT VERIFIED" tag |
+| `WCCardBadge` | Shows "Not Verified" with "GET VERIFIED →" CTA |
+| `WCShieldBadge` | Shows "?" instead of checkmark |
+
+Tapping an unverified badge takes the user to `world-credit.com/signup`. Once they sign up and verify, the badge automatically shows their real score.
+
+```dart
+// This works for both verified and unverified users — no special handling needed
+WCInlineBadge(handle: 'any-handle')
+
+// Check programmatically
+final data = await WorldCreditBadge.fetch('handle');
+if (!data.verified) {
+  // User hasn't signed up yet
+}
+```
+
 ## Features
 
 - **Auto-caching** — API responses cached in-memory with TTL

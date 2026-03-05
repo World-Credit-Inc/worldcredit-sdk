@@ -38,6 +38,17 @@ npm install worldcredit-badge
 | `data-theme` | `dark`, `light` | `dark` |
 | `data-size` | `sm`, `md`, `lg` | `md` |
 
+## Unverified Badges
+
+When a handle doesn't have a World Credit account, badges automatically render in a grayed-out **unverified state** that links to `world-credit.com/signup`. No extra code needed.
+
+| Style | Unverified Behavior |
+|-------|-------------------|
+| `inline` | Shows "Not Verified" in muted gray |
+| `pill` | Shows "—" score with "NOT VERIFIED" tag |
+| `card` | Shows "Not Verified" with "GET VERIFIED →" CTA |
+| `shield` | Shows "?" instead of checkmark |
+
 ## Get API Key
 
 Sign up at [world-credit.com](https://world-credit.com) to get your API key.

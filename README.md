@@ -41,6 +41,19 @@ print(data.tier)        // "Platinum"
 
 All badges support **dark/light themes** and **sm/md/lg sizes**.
 
+## Unverified Badges
+
+When a handle doesn't have a World Credit account, badges render in a grayed-out **unverified state** — "Not Verified" text, "?" checkmarks, and a CTA linking to signup. No special handling needed.
+
+```swift
+// Works for any handle — verified or not
+InlineBadge(handle: "any-handle")
+
+// Check programmatically
+let data = try await WorldCreditBadge.fetch(handle: "handle")
+print(data.verified) // false if no account
+```
+
 ## Requirements
 
 - iOS 15.0+

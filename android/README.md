@@ -103,6 +103,35 @@ fun UserList() {
 }
 ```
 
+## Unverified Badges
+
+When a user doesn't have a World Credit account, all badges automatically render an **unverified state**:
+
+| Style | Unverified Behavior |
+|-------|-------------------|
+| `InlineBadge` | Shows "Not Verified" in muted gray |
+| `PillBadge` | Shows "—" score with "NOT VERIFIED" tag |
+| `CardBadge` | Shows "Not Verified" with "GET VERIFIED →" CTA |
+| `ShieldBadge` | Shows "?" instead of checkmark |
+
+Tapping an unverified badge takes the user to `world-credit.com/signup`. No special handling needed — just pass any handle.
+
+```kotlin
+// Works for both verified and unverified users
+InlineBadge(handle = "any-handle")
+
+// Check programmatically
+WorldCreditBadge.fetch("handle") { result ->
+    when (result) {
+        is BadgeResult.Success -> {
+            if (!result.data.verified) {
+                // User hasn't signed up yet
+            }
+        }
+    }
+}
+```
+
 ## API Reference
 
 ### Basic Usage
