@@ -1,0 +1,4 @@
+jdk:
+  - openjdk17
+install:
+  - FILE="-Dfile=android/build/outputs/aar/android-release.aar"

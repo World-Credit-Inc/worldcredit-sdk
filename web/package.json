@@ -1,0 +1,32 @@
+{
+  "name": "worldcredit-badge",
+  "version": "1.0.0",
+  "description": "World Credit Trust Badge SDK — embed verified trust scores in any website",
+  "main": "badge.js",
+  "types": "badge.d.ts",
+  "files": [
+    "badge.js",
+    "badge.d.ts",
+    "README.md"
+  ],
+  "keywords": [
+    "world-credit",
+    "trust",
+    "badge",
+    "reputation",
+    "verification",
+    "identity",
+    "trust-score"
+  ],
+  "author": "World Credit Inc.",
+  "license": "MIT",
+  "homepage": "https://world-credit.com/sdk/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/World-Credit-Inc/worldcredit-sdk.git",
+    "directory": "web"
+  },
+  "bugs": {
+    "url": "https://github.com/World-Credit-Inc/worldcredit-sdk/issues"
+  }
+}

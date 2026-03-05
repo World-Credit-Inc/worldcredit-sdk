@@ -125,7 +125,8 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
             ),
           ),
           Positioned(
-            ...getDotPosition(),
+            bottom: -(widget.size.iconSize * 0.3) * 0.2,
+            right: -(widget.size.iconSize * 0.3) * 0.2,
             child: Container(
               width: widget.size.iconSize * 0.3,
               height: widget.size.iconSize * 0.3,
