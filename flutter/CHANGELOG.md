@@ -1,3 +1,8 @@
+## 1.2.4
+
+- **Fix**: Shield badge uses actual World Credit shield logo (rounded square, like web SDK) instead of plain circle with W letter
+- Matches web SDK appearance: shield logo + tier-colored checkmark dot
+
 ## 1.2.3
 
 - **Fix**: Shield badge redesigned — replaced oversized app icon with clean circular "W" + tier-colored dot

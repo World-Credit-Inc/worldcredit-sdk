@@ -2,6 +2,7 @@
 library;
 
 import 'package:flutter/material.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../badge_data.dart';
 import '../badge_theme.dart';
@@ -185,57 +186,54 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
 
     final isUnverified = _data!.isUnverified;
     final tierColor = isUnverified ? Colors.grey : _data!.tierColorAsColor;
+    const logoUrl = 'https://worldcredit-c266e.web.app/WorldCreditAppLogo.png';
     final badgeSize = widget.size.iconSize;
-    final dotSize = badgeSize * 0.4;
+    final dotSize = badgeSize * 0.5;
+    final totalSize = badgeSize + dotSize * 0.25;
 
     Widget shieldWidget = GestureDetector(
       onTap: _handleTap,
       child: SizedBox(
-        width: badgeSize + dotSize * 0.3,
-        height: badgeSize + dotSize * 0.3,
+        width: totalSize,
+        height: totalSize,
         child: Stack(
           clipBehavior: Clip.none,
           children: [
-            // Main logo — circular container with W letter
+            // Shield logo image — rounded square like the web version
             Positioned(
               top: 0,
               left: 0,
               child: Opacity(
                 opacity: isUnverified ? 0.5 : 1.0,
-                child: Container(
-                  width: badgeSize,
-                  height: badgeSize,
-                  decoration: BoxDecoration(
-                    color: theme.isDark ? const Color(0xFF1A2332) : Colors.white,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color: tierColor.withOpacity(0.4),
-                      width: 1.5,
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(theme.isDark ? 0.3 : 0.1),
-                        blurRadius: 3,
-                        offset: const Offset(0, 1),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(badgeSize * 0.2),
+                  child: SizedBox(
+                    width: badgeSize,
+                    height: badgeSize,
+                    child: CachedNetworkImage(
+                      imageUrl: logoUrl,
+                      fadeInDuration: const Duration(milliseconds: 200),
+                      errorWidget: (context, url, error) => Container(
+                        color: const Color(0xFF0A1128),
+                        child: Center(
+                          child: Text(
+                            'W',
+                            style: TextStyle(
+                              fontSize: badgeSize * 0.5,
+                              fontWeight: FontWeight.w800,
+                              color: tierColor,
+                            ),
+                          ),
+                        ),
                       ),
-                    ],
-                  ),
-                  child: Center(
-                    child: Text(
-                      'W',
-                      style: TextStyle(
-                        fontSize: badgeSize * 0.5,
-                        fontWeight: FontWeight.w800,
-                        color: tierColor,
-                        height: 1.0,
-                      ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
               ),
             ),
             
-            // Tier-colored verification dot (or "?" if unverified)
+            // Tier-colored verification dot with checkmark (or "?" if unverified)
             Positioned(
               bottom: 0,
               right: 0,
