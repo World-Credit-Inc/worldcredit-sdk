@@ -1,122 +1,66 @@
-# World Credit Trust Badge SDK
+# WorldCreditBadge
 
-Embed verified trust scores anywhere — websites, mobile apps, marketplaces.
+A SwiftUI SDK for embedding verified World Credit trust badges in iOS apps.
 
-## SDKs
+## Installation
 
-| Platform | Status | Location |
-|----------|--------|----------|
-| JavaScript (Web) | ✅ Ready | [`web/`](./web/) |
-| iOS (Swift) | ✅ Ready | [`ios/`](./ios/) |
-| Android (Kotlin) | ✅ Ready | [`android/`](./android/) |
-| Flutter | ✅ Ready | [`flutter/`](./flutter/) |
+Add via Swift Package Manager in Xcode:
 
-## Badge Styles
-
-Every SDK supports 4 badge styles:
-
-| Style | Use Case |
-|-------|----------|
-| `inline` | Compact pill that sits next to a username |
-| `pill` | Logo + score + tier in a capsule |
-| `card` | Rich display for profile sidebars |
-| `shield` | Minimal logo + verified checkmark |
-
-All badges support **dark/light themes** and **sm/md/lg sizes**.
-
----
-
-## Quick Start — Web
-
-```html
-<div data-worldcredit="handle" data-style="inline"></div>
-<script src="https://world-credit.com/sdk/badge.js"></script>
+```
+https://github.com/World-Credit-Inc/worldcredit-sdk
 ```
 
-## Quick Start — iOS (Swift Package)
-
-Add via SPM: `https://github.com/World-Credit-Inc/worldcredit-sdk`
+## Quick Start
 
 ```swift
 import WorldCreditBadge
 
+// Initialize with your API key (call once, typically in AppDelegate or @main App)
+WorldCreditBadge.configure(apiKey: "your-api-key")
+
+// Drop badges into any SwiftUI view
 InlineBadge(handle: "handle")
 PillBadge(handle: "handle", theme: .light, size: .sm)
 CardBadge(handle: "handle")
 ShieldBadge(handle: "handle")
+
+// Programmatic fetch
+let data = try await WorldCreditBadge.fetch(handle: "handle")
+print(data.worldScore)  // 87
+print(data.tier)        // "Platinum"
 ```
 
-## Quick Start — Android (Jetpack Compose)
+## Badge Styles
 
-```kotlin
-import com.worldcredit.badge.ui.*
+| Style | Use Case |
+|-------|----------|
+| `InlineBadge` | Compact pill next to usernames |
+| `PillBadge` | Logo + score + tier capsule |
+| `CardBadge` | Rich display for profile sidebars |
+| `ShieldBadge` | Minimal logo + verified checkmark |
 
-InlineBadge(handle = "handle")
-PillBadge(handle = "handle", theme = BadgeTheme.Light, size = BadgeSize.Small)
-CardBadge(handle = "handle")
-ShieldBadge(handle = "handle")
-```
+All badges support **dark/light themes** and **sm/md/lg sizes**.
 
-## Quick Start — Flutter
+## Requirements
 
-```yaml
-# pubspec.yaml
-dependencies:
-  worldcredit_badge: ^1.0.0
-```
+- iOS 15.0+
+- SwiftUI
+- Xcode 15+
 
-```dart
-import 'package:worldcredit_badge/worldcredit_badge.dart';
+## Other Platforms
 
-WCInlineBadge(handle: 'handle')
-WCPillBadge(handle: 'handle', theme: WCBadgeTheme.light, size: WCBadgeSize.sm)
-WCCardBadge(handle: 'handle')
-WCShieldBadge(handle: 'handle')
-```
+- **Web** — [npm: worldcredit-badge](https://www.npmjs.com/package/worldcredit-badge)
+- **Android** — [JitPack](https://jitpack.io/#World-Credit-Inc/worldcredit-sdk)
+- **Flutter** — [pub.dev: worldcredit_badge](https://pub.dev/packages/worldcredit_badge)
 
-## Options
+## Get API Key
 
-| Option | Values | Default |
-|--------|--------|---------|
-| Style | `inline` `pill` `card` `shield` | `inline` |
-| Theme | `dark` `light` | `dark` |
-| Size | `sm` `md` `lg` | `md` |
+Sign up at [world-credit.com](https://world-credit.com)
 
-## Badge API
+## Docs
 
-All SDKs use the same REST API:
-
-```
-GET https://world-credit.com/api/badge?handle=handle
-```
-
-```json
-{
-  "ok": true,
-  "handle": "handle",
-  "displayName": "Sarah K.",
-  "worldScore": 87,
-  "tier": "Platinum",
-  "tierColor": "#00FFC8",
-  "linkedNetworks": 10,
-  "profileUrl": "https://world-credit.com/profile?handle=handle",
-  "categories": [
-    { "label": "Reliability", "score": 92 },
-    { "label": "Financial Integrity", "score": 85 },
-    { "label": "Social Proof", "score": 88 }
-  ]
-}
-```
-
-## Trust Tiers
-
-| Tier | Score | Color |
-|------|-------|-------|
-| Bronze | 1 – 19 | `#CD7F32` |
-| Silver | 20 – 49 | `#C0C0C0` |
-| Gold | 50 – 79 | `#FFD700` |
-| Platinum | 80 – 100 | `#00FFC8` |
+[world-credit.com/sdk](https://world-credit.com/sdk/)
 
 ## License
 
-© 2025 World Credit Inc. All Rights Reserved.
+MIT — © 2025 World Credit Inc.
