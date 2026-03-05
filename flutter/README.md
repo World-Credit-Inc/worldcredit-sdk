@@ -2,6 +2,8 @@
 
 Embed verified trust badges in any Flutter app. Supports all platforms (iOS, Android, Web, macOS, Windows, Linux).
 
+[![pub.dev](https://img.shields.io/pub/v/worldcredit_badge.svg)](https://pub.dev/packages/worldcredit_badge)
+
 ## Installation
 
 ```yaml
@@ -22,8 +24,11 @@ import 'package:worldcredit_badge/worldcredit_badge.dart';
 // Initialize with your API key (call once, typically in main())
 WorldCreditBadge.configure(apiKey: 'your-api-key');
 
-// Drop any badge into your widget tree
-WCInlineBadge(handle: 'handle')
+// Look up by email (recommended for integrations)
+WCPillBadge(email: 'user@example.com')
+
+// Or by World Credit handle
+WCPillBadge(handle: 'ryannapp')
 ```
 
 > **API key required.** Get yours at [world-credit.com](https://world-credit.com) — sign up for a plan under [Pricing](https://world-credit.com/#pricing).
@@ -37,7 +42,7 @@ Row(
   children: [
     Text('Sarah K.'),
     const SizedBox(width: 8),
-    WCInlineBadge(handle: 'handle'),
+    WCInlineBadge(email: 'sarah@example.com'),
   ],
 )
 ```
@@ -46,7 +51,7 @@ Row(
 
 ```dart
 WCPillBadge(
-  handle: 'handle',
+  email: 'user@example.com',
   theme: WCBadgeTheme.light,
   size: WCBadgeSize.sm,
 )
@@ -55,60 +60,53 @@ WCPillBadge(
 ### WCCardBadge — rich sidebar display
 
 ```dart
-WCCardBadge(handle: 'handle')
+WCCardBadge(email: 'user@example.com')
 ```
 
 ### WCShieldBadge — minimal checkmark
 
 ```dart
-WCShieldBadge(handle: 'handle')
+WCShieldBadge(email: 'user@example.com')
 ```
 
 ## Options
 
-| Parameter | Type | Values | Default |
-|-----------|------|--------|---------|
-| `handle` | `String` | User handle | Required |
-| `theme` | `WCBadgeTheme` | `.dark` `.light` | `.dark` |
-| `size` | `WCBadgeSize` | `.sm` `.md` `.lg` | `.md` |
+| Parameter | Type | Description | Default |
+|-----------|------|-------------|---------|
+| `email` | `String?` | User email for lookup (recommended) | `null` |
+| `handle` | `String` | World Credit handle | `''` |
+| `theme` | `WCBadgeTheme` | `.dark` `.light` | auto-detect |
+| `size` | `WCBadgeSize` | `.xs` `.sm` `.md` `.lg` `.xl` | `.md` |
+
+> **Tip:** Use `email` for B2B integrations — your platform already knows your users' emails. No need to know their World Credit handle.
 
 ## Themes
 
 ```dart
-// Dark theme (default) — for dark backgrounds
-WCPillBadge(handle: 'handle', theme: WCBadgeTheme.dark)
+// Dark theme — for dark backgrounds
+WCPillBadge(email: 'user@example.com', theme: WCBadgeTheme.dark)
 
 // Light theme — for white/light backgrounds
-WCPillBadge(handle: 'handle', theme: WCBadgeTheme.light)
+WCPillBadge(email: 'user@example.com', theme: WCBadgeTheme.light)
+
+// Auto-detect from app theme (default)
+WCPillBadge(email: 'user@example.com')
 ```
 
 ## Programmatic Fetch
 
 ```dart
-// Fetch badge data directly
-final data = await WorldCreditBadge.fetch('handle');
-
-print(data.worldScore);  // 87
-print(data.tier);        // "Platinum"
-print(data.tierColor);   // "#00FFC8"
-print(data.categories);  // [{label: "Reliability", score: 92}, ...]
-```
-
-## Email-Based Lookup (Recommended for B2B)
-
-Companies integrating the SDK can look up users by **email** instead of World Credit handle — your platform already knows your users' emails.
-
-```dart
-// Look up by email (recommended)
-WCInlineBadge(email: 'user@example.com')
-WCPillBadge(email: 'user@example.com')
-
-// Or by World Credit handle
-WCInlineBadge(handle: 'ryannapp')
-
-// Programmatic fetch by email
+// Fetch by email
 final data = await WorldCreditBadge.fetch('', email: 'user@example.com');
-print(data.verified); // true if user has a World Credit account
+
+// Or by handle
+final data = await WorldCreditBadge.fetch('ryannapp');
+
+print(data.verified);    // true
+print(data.worldScore);  // 52
+print(data.tier);        // "Gold"
+print(data.tierColor);   // "#FFD700"
+print(data.categories);  // [{label: "Reliability", score: 60}, ...]
 ```
 
 ## Unverified Badges
@@ -122,38 +120,18 @@ When a user doesn't have a World Credit account, all badges automatically render
 | `WCCardBadge` | Shows "Not Verified" with "GET VERIFIED →" CTA |
 | `WCShieldBadge` | Shows "?" instead of checkmark |
 
-Tapping an unverified badge takes the user to `world-credit.com/signup`. Once they sign up and verify, the badge automatically shows their real score.
+Tapping an unverified badge takes the user to sign up for World Credit. Once they verify, the badge automatically shows their real score.
 
 ```dart
-// This works for both verified and unverified users — no special handling needed
-WCInlineBadge(handle: 'any-handle')
+// Works for both verified and unverified users — no special handling needed
+WCPillBadge(email: 'anyone@example.com')
 
 // Check programmatically
-final data = await WorldCreditBadge.fetch('handle');
+final data = await WorldCreditBadge.fetch('', email: 'user@example.com');
 if (!data.verified) {
-  // User hasn't signed up yet
+  // User hasn't signed up yet — badge shows unverified state
 }
 ```
-
-## Features
-
-- **Auto-caching** — API responses cached in-memory with TTL
-- **Loading states** — Subtle placeholder while fetching
-- **Error handling** — Fails silently, never breaks host app UI
-- **Tap to profile** — Badges open public profile via `url_launcher`
-- **Self-contained** — Just pass a handle string, widget handles everything
-- **Cross-platform** — Works on iOS, Android, Web, macOS, Windows, Linux
-
-## Dependencies
-
-- `http` — API calls
-- `cached_network_image` — Logo caching
-- `url_launcher` — Profile link tap handling
-
-## Requirements
-
-- Flutter >= 3.0
-- Dart >= 3.0
 
 ## Trust Tiers
 
@@ -164,14 +142,27 @@ if (!data.verified) {
 | Gold | 50 – 79 | `#FFD700` |
 | Platinum | 80 – 100 | `#00FFC8` |
 
-## Example App
+## Features
 
-See the full example app in [`example/`](./example/) showing all badge variants.
+- **Email lookup** — Look up users by email, no handle needed
+- **Auto-caching** — API responses cached in-memory with TTL
+- **Loading states** — Subtle shimmer placeholder while fetching
+- **Error handling** — Fails silently, never breaks host app UI
+- **Tap to profile** — Badges open public profile via `url_launcher`
+- **Self-contained** — Pass an email or handle, widget handles everything
+- **Cross-platform** — iOS, Android, Web, macOS, Windows, Linux
 
-## Live Demo
+## Requirements
 
-See badge styles in action: [world-credit.com/sdk](https://world-credit.com/sdk/)
+- Flutter >= 3.0
+- Dart >= 3.0
+
+## Links
+
+- [SDK Documentation](https://world-credit.com/sdk/)
+- [Get API Key](https://world-credit.com/#pricing)
+- [pub.dev Package](https://pub.dev/packages/worldcredit_badge)
 
 ## License
 
-© 2026 World Credit Inc. All Rights Reserved.
+MIT — see [LICENSE](./LICENSE)
