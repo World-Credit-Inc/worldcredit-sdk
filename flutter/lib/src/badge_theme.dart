@@ -100,12 +100,25 @@ class WCBadgeTheme {
 
   /// Gets a subtle tier background color
   Color getTierBackground(Color tierColor) {
+    if (!isDark && tierColor.computeLuminance() > 0.5) {
+      // Brighter tint for light-colored tiers so the pill is visible
+      return tierColor.withOpacity(0.2);
+    }
     return tierColor.withOpacity(isDark ? 0.2 : 0.1);
   }
 
   /// Gets tier text color that contrasts well with the tier background
+  /// Darkens light colors (like Gold #FFD700) in light mode for readability
   Color getTierTextColor(Color tierColor) {
-    return isDark ? tierColor.withOpacity(0.9) : tierColor;
+    if (isDark) return tierColor.withOpacity(0.9);
+    // If the color is too bright for white background, darken it
+    final luminance = tierColor.computeLuminance();
+    if (luminance > 0.5) {
+      // Darken bright colors (Gold, Silver, etc.) for light mode
+      final hsl = HSLColor.fromColor(tierColor);
+      return hsl.withLightness((hsl.lightness * 0.55).clamp(0.0, 1.0)).toColor();
+    }
+    return tierColor;
   }
 
   /// Common decoration for badge containers

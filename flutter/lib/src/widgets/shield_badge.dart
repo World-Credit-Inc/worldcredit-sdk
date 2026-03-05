@@ -115,10 +115,13 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
   }
 
   Widget _buildShimmer(WCBadgeTheme theme) {
+    final shimmerDotSize = widget.size.iconSize * 0.35;
+    final shimmerOverflow = shimmerDotSize * 0.3;
     return SizedBox(
-      width: widget.size.iconSize,
-      height: widget.size.iconSize,
+      width: widget.size.iconSize + shimmerOverflow,
+      height: widget.size.iconSize + shimmerOverflow,
       child: Stack(
+        clipBehavior: Clip.none,
         children: [
           Container(
             width: widget.size.iconSize,
@@ -129,11 +132,11 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
             ),
           ),
           Positioned(
-            bottom: -(widget.size.iconSize * 0.3) * 0.2,
-            right: -(widget.size.iconSize * 0.3) * 0.2,
+            bottom: 0,
+            right: 0,
             child: Container(
-              width: widget.size.iconSize * 0.3,
-              height: widget.size.iconSize * 0.3,
+              width: shimmerDotSize,
+              height: shimmerDotSize,
               decoration: BoxDecoration(
                 color: theme.shimmerHighlightColor,
                 shape: BoxShape.circle,
@@ -150,18 +153,15 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
   }
 
   Map<String, double> getDotPosition() {
-    final dotSize = widget.size.iconSize * 0.3;
-    final offset = -dotSize * 0.2; // Slight overlap with main logo
-    
     switch (widget.dotPosition) {
       case ShieldDotPosition.topLeft:
-        return {'top': offset, 'left': offset};
+        return {'top': 0.0, 'left': 0.0};
       case ShieldDotPosition.topRight:
-        return {'top': offset, 'right': offset};
+        return {'top': 0.0, 'right': 0.0};
       case ShieldDotPosition.bottomLeft:
-        return {'bottom': offset, 'left': offset};
+        return {'bottom': 0.0, 'left': 0.0};
       case ShieldDotPosition.bottomRight:
-        return {'bottom': offset, 'right': offset};
+        return {'bottom': 0.0, 'right': 0.0};
     }
   }
 
@@ -193,12 +193,16 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
     final logoUrl = widget.logoUrl ?? _defaultLogoUrl;
     final dotPosition = getDotPosition();
 
+    final dotSize = widget.size.iconSize * 0.35;
+    final dotOverflow = dotSize * 0.3;
+
     Widget shieldWidget = GestureDetector(
       onTap: _handleTap,
       child: SizedBox(
-        width: widget.size.iconSize,
-        height: widget.size.iconSize,
+        width: widget.size.iconSize + dotOverflow,
+        height: widget.size.iconSize + dotOverflow,
         child: Stack(
+          clipBehavior: Clip.none,
           children: [
             // Main logo
             Opacity(
@@ -231,13 +235,13 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
             
             // Tier-colored verification dot (or "?" if unverified)
             Positioned(
-              top: dotPosition['top'],
-              right: dotPosition['right'],
-              bottom: dotPosition['bottom'],
-              left: dotPosition['left'],
+              top: dotPosition['top'] != null ? dotPosition['top']! + dotOverflow / 2 : null,
+              right: dotPosition['right'] != null ? dotPosition['right']! + dotOverflow / 2 : null,
+              bottom: dotPosition['bottom'] != null ? dotPosition['bottom']! + dotOverflow / 2 : null,
+              left: dotPosition['left'] != null ? dotPosition['left']! + dotOverflow / 2 : null,
               child: Container(
-                width: widget.size.iconSize * 0.3,
-                height: widget.size.iconSize * 0.3,
+                width: dotSize,
+                height: dotSize,
                 decoration: BoxDecoration(
                   color: tierColor,
                   shape: BoxShape.circle,
@@ -258,17 +262,19 @@ class _WCShieldBadgeState extends State<WCShieldBadge> {
                         child: Text(
                           '?',
                           style: TextStyle(
-                            fontSize: widget.size.iconSize * 0.15,
+                            fontSize: dotSize * 0.55,
                             fontWeight: FontWeight.bold,
                             color: Colors.white,
                             height: 1.0,
                           ),
                         ),
                       )
-                    : Icon(
-                        Icons.check,
-                        size: widget.size.iconSize * 0.15,
-                        color: Colors.white,
+                    : Center(
+                        child: Icon(
+                          Icons.check,
+                          size: dotSize * 0.55,
+                          color: Colors.white,
+                        ),
                       ),
               ),
             ),
