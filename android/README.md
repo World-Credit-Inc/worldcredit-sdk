@@ -34,7 +34,7 @@ WorldCredit.configure(apiKey = "your-api-key")
 PillBadge(email = "user@example.com")
 
 // Or by World Credit handle
-PillBadge(handle = "ryannapp")
+PillBadge(handle = "johndoe12")
 ```
 
 > **API key required.** Get yours at [world-credit.com/#pricing](https://world-credit.com/#pricing)
@@ -81,7 +81,7 @@ ShieldBadge(email = "user@example.com")
 val data = WorldCreditBadge.fetch(email = "user@example.com")
 
 // Or by handle
-val data = WorldCreditBadge.fetch(handle = "ryannapp")
+val data = WorldCreditBadge.fetch(handle = "johndoe12")
 
 println(data.verified)     // true
 println(data.worldScore)   // 52

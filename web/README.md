@@ -16,7 +16,7 @@ Embed verified trust badges on any website. Zero dependencies.
 <div data-email="user@example.com" data-style="pill"></div>
 
 <!-- Or by World Credit handle -->
-<div data-worldcredit="ryannapp" data-style="pill"></div>
+<div data-worldcredit="johndoe12" data-style="pill"></div>
 
 <!-- Load SDK (before </body>) -->
 <script src="https://world-credit.com/sdk/badge.js"></script>

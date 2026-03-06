@@ -25,7 +25,7 @@ CardBadge(email: "user@example.com")
 ShieldBadge(email: "user@example.com")
 
 // Or by World Credit handle
-PillBadge(handle: "ryannapp")
+PillBadge(handle: "johndoe12")
 
 // Programmatic fetch
 let data = try await WorldCreditBadge.fetch(email: "user@example.com")

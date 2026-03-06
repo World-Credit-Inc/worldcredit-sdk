@@ -28,7 +28,7 @@ WorldCreditBadge.configure(apiKey: 'your-api-key');
 WCPillBadge(email: 'user@example.com')
 
 // Or by World Credit handle
-WCPillBadge(handle: 'ryannapp')
+WCPillBadge(handle: 'johndoe12')
 ```
 
 > **API key required.** Get yours at [world-credit.com](https://world-credit.com) — sign up for a plan under [Pricing](https://world-credit.com/#pricing).
@@ -100,7 +100,7 @@ WCPillBadge(email: 'user@example.com')
 final data = await WorldCreditBadge.fetch('', email: 'user@example.com');
 
 // Or by handle
-final data = await WorldCreditBadge.fetch('ryannapp');
+final data = await WorldCreditBadge.fetch('johndoe12');
 
 print(data.verified);    // true
 print(data.worldScore);  // 52
