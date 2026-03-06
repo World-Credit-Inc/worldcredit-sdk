@@ -136,7 +136,7 @@ class _WCInlineBadgeState extends State<WCInlineBadge> {
               '·',
               style: TextStyle(
                 fontSize: widget.size.fontSize,
-                color: theme.textColor.withOpacity(0.3),
+                color: theme.textColor.withValues(alpha: 0.3),
               ),
             ),
             SizedBox(width: widget.size.padding * 0.5),
@@ -177,15 +177,15 @@ class _WCInlineBadgeState extends State<WCInlineBadge> {
           vertical: widget.size.padding * 0.5,
         ),
         decoration: BoxDecoration(
-          color: theme.backgroundColor.withOpacity(0.8),
+          color: theme.backgroundColor.withValues(alpha: 0.8),
           border: Border.all(
-            color: theme.borderColor.withOpacity(0.5),
+            color: theme.borderColor.withValues(alpha: 0.5),
             width: 0.5,
           ),
           borderRadius: BorderRadius.circular(widget.size.iconSize / 2),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(theme.isDark ? 0.2 : 0.05),
+              color: Colors.black.withValues(alpha: theme.isDark ? 0.2 : 0.05),
               blurRadius: 2,
               offset: const Offset(0, 1),
             ),
@@ -220,7 +220,7 @@ class _WCInlineBadgeState extends State<WCInlineBadge> {
                 style: TextStyle(
                   fontSize: widget.size.fontSize * 0.9,
                   fontWeight: FontWeight.w500,
-                  color: theme.textColor.withOpacity(0.5),
+                  color: theme.textColor.withValues(alpha: 0.5),
                   height: 1.0,
                 ),
               ),
@@ -243,7 +243,7 @@ class _WCInlineBadgeState extends State<WCInlineBadge> {
                   '·',
                   style: TextStyle(
                     fontSize: widget.size.fontSize,
-                    color: theme.textColor.withOpacity(0.4),
+                    color: theme.textColor.withValues(alpha: 0.4),
                     height: 1.0,
                   ),
                 ),

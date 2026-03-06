@@ -225,7 +225,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
                         fadeInDuration: const Duration(milliseconds: 200),
                         errorWidget: (context, url, error) => Container(
                           decoration: BoxDecoration(
-                            color: tierColor.withOpacity(0.1),
+                            color: tierColor.withValues(alpha: 0.1),
                             shape: BoxShape.circle,
                           ),
                           child: Icon(
@@ -281,7 +281,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
                       fontSize: widget.size.fontSize * 2.2,
                       fontWeight: FontWeight.w800,
                       color: isUnverified
-                          ? theme.getScoreTextStyle(widget.size).color?.withOpacity(0.5)
+                          ? theme.getScoreTextStyle(widget.size).color?.withValues(alpha: 0.5)
                           : tierColor,
                     ),
                   ),
@@ -344,7 +344,7 @@ class _WCCardBadgeState extends State<WCCardBadge> {
                         vertical: widget.size.padding * 0.3,
                       ),
                       decoration: BoxDecoration(
-                        color: tierColor.withOpacity(0.1),
+                        color: tierColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(widget.size.padding),
                       ),
                       child: Text(

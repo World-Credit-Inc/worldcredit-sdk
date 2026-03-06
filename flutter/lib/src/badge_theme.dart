@@ -95,22 +95,22 @@ class WCBadgeTheme {
 
   /// Gets the tier accent color with optional opacity
   Color getTierColor(Color tierColor, [double opacity = 1.0]) {
-    return tierColor.withOpacity(opacity);
+    return tierColor.withValues(alpha: opacity);
   }
 
   /// Gets a subtle tier background color
   Color getTierBackground(Color tierColor) {
     if (!isDark && tierColor.computeLuminance() > 0.5) {
       // Brighter tint for light-colored tiers so the pill is visible
-      return tierColor.withOpacity(0.2);
+      return tierColor.withValues(alpha: 0.2);
     }
-    return tierColor.withOpacity(isDark ? 0.2 : 0.1);
+    return tierColor.withValues(alpha: isDark ? 0.2 : 0.1);
   }
 
   /// Gets tier text color that contrasts well with the tier background
   /// Darkens light colors (like Gold #FFD700) in light mode for readability
   Color getTierTextColor(Color tierColor) {
-    if (isDark) return tierColor.withOpacity(0.9);
+    if (isDark) return tierColor.withValues(alpha: 0.9);
     // If the color is too bright for white background, darken it
     final luminance = tierColor.computeLuminance();
     if (luminance > 0.5) {
@@ -128,7 +128,7 @@ class WCBadgeTheme {
         borderRadius: borderRadius,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.3 : 0.1),
+            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.1),
             blurRadius: 4,
             offset: const Offset(0, 2),
           ),
@@ -165,7 +165,7 @@ class WCBadgeTheme {
   TextStyle getSecondaryTextStyle(WCBadgeSize size) => TextStyle(
         fontSize: size.fontSize * 0.9,
         fontWeight: FontWeight.w500,
-        color: textColor.withOpacity(0.7),
+        color: textColor.withValues(alpha: 0.7),
         height: 1.2,
       );
 }

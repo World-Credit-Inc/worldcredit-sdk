@@ -193,7 +193,7 @@ class _WCPillBadgeState extends State<WCPillBadge> {
                     fadeInDuration: const Duration(milliseconds: 200),
                     errorWidget: (context, url, error) => Container(
                       decoration: BoxDecoration(
-                        color: tierColor.withOpacity(0.1),
+                        color: tierColor.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
@@ -234,7 +234,7 @@ class _WCPillBadgeState extends State<WCPillBadge> {
                         isUnverified ? '—' : _data!.worldScore.toString(),
                         style: theme.getScoreTextStyle(widget.size).copyWith(
                           color: isUnverified
-                              ? theme.getScoreTextStyle(widget.size).color?.withOpacity(0.5)
+                              ? theme.getScoreTextStyle(widget.size).color?.withValues(alpha: 0.5)
                               : null,
                         ),
                       ),
