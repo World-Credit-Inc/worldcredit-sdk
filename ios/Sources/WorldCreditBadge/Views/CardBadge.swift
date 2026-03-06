@@ -380,7 +380,7 @@ struct CardBadge_Previews: PreviewProvider {
                             tierColor: "#FFD700",
                             photoUrl: nil,
                             linkedNetworks: nil,
-                            profileUrl: "https://worldcredit.app/gold_user",
+                            profileUrl: "https://world-credit.com/gold_user",
                             categories: nil
                         ),
                         width: 180
@@ -396,7 +396,7 @@ struct CardBadge_Previews: PreviewProvider {
                             tierColor: "#00FFC8",
                             photoUrl: nil,
                             linkedNetworks: nil,
-                            profileUrl: "https://worldcredit.app/platinum_user",
+                            profileUrl: "https://world-credit.com/platinum_user",
                             categories: nil
                         ),
                         width: 180
@@ -414,7 +414,7 @@ struct CardBadge_Previews: PreviewProvider {
                         tierColor: "#C0C0C0",
                         photoUrl: nil,
                         linkedNetworks: nil,
-                        profileUrl: "https://worldcredit.app/minimal_user",
+                        profileUrl: "https://world-credit.com/minimal_user",
                         categories: nil
                     ),
                     width: 200,
@@ -433,7 +433,7 @@ struct CardBadge_Previews: PreviewProvider {
                             tierColor: "#FFD700",
                             photoUrl: nil,
                             linkedNetworks: nil,
-                            profileUrl: "https://worldcredit.app/theme_test",
+                            profileUrl: "https://world-credit.com/theme_test",
                             categories: nil
                         ),
                         theme: .light,
@@ -450,7 +450,7 @@ struct CardBadge_Previews: PreviewProvider {
                             tierColor: "#FFD700",
                             photoUrl: nil,
                             linkedNetworks: nil,
-                            profileUrl: "https://worldcredit.app/theme_test",
+                            profileUrl: "https://world-credit.com/theme_test",
                             categories: nil
                         ),
                         theme: .dark,

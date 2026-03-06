@@ -186,7 +186,7 @@ struct InlineBadge_Previews: PreviewProvider {
                         tierColor: "#FFD700",
                         photoUrl: nil,
                         linkedNetworks: nil,
-                        profileUrl: "https://worldcredit.app/janedoe",
+                        profileUrl: "https://world-credit.com/janedoe",
                         categories: nil
                     )
                 )
@@ -210,7 +210,7 @@ struct InlineBadge_Previews: PreviewProvider {
                                 tierColor: "#00FFC8",
                                 photoUrl: nil,
                                 linkedNetworks: nil,
-                                profileUrl: "https://worldcredit.app/sarah_k",
+                                profileUrl: "https://world-credit.com/sarah_k",
                                 categories: nil
                             ),
                             size: size
@@ -236,7 +236,7 @@ struct InlineBadge_Previews: PreviewProvider {
                             tierColor: "#C0C0C0",
                             photoUrl: nil,
                             linkedNetworks: nil,
-                            profileUrl: "https://worldcredit.app/testuser",
+                            profileUrl: "https://world-credit.com/testuser",
                             categories: nil
                         ),
                         theme: .light
@@ -258,7 +258,7 @@ struct InlineBadge_Previews: PreviewProvider {
                             tierColor: "#C0C0C0",
                             photoUrl: nil,
                             linkedNetworks: nil,
-                            profileUrl: "https://worldcredit.app/testuser",
+                            profileUrl: "https://world-credit.com/testuser",
                             categories: nil
                         ),
                         theme: .dark

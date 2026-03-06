@@ -246,7 +246,7 @@ struct ShieldBadge_Previews: PreviewProvider {
                                 tierColor: tierData.tier.hexColor,
                                 photoUrl: nil,
                                 linkedNetworks: nil,
-                                profileUrl: "https://worldcredit.app/\(tierData.handle)",
+                                profileUrl: "https://world-credit.com/\(tierData.handle)",
                                 categories: nil
                             ),
                             size: .lg
@@ -277,7 +277,7 @@ struct ShieldBadge_Previews: PreviewProvider {
                                     tierColor: "#FFD700",
                                     photoUrl: nil,
                                     linkedNetworks: nil,
-                                    profileUrl: "https://worldcredit.app/test_user",
+                                    profileUrl: "https://world-credit.com/test_user",
                                     categories: nil
                                 ),
                                 size: size
@@ -330,7 +330,7 @@ struct ShieldBadge_Previews: PreviewProvider {
                                 tierColor: "#00FFC8",
                                 photoUrl: nil,
                                 linkedNetworks: nil,
-                                profileUrl: "https://worldcredit.app/light_theme",
+                                profileUrl: "https://world-credit.com/light_theme",
                                 categories: nil
                             ),
                             theme: .light,
@@ -352,7 +352,7 @@ struct ShieldBadge_Previews: PreviewProvider {
                                 tierColor: "#00FFC8",
                                 photoUrl: nil,
                                 linkedNetworks: nil,
-                                profileUrl: "https://worldcredit.app/dark_theme",
+                                profileUrl: "https://world-credit.com/dark_theme",
                                 categories: nil
                             ),
                             theme: .dark,
